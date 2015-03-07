@@ -1,0 +1,11 @@
+{
+  "name": "rentalSearch",
+  "version": "0.0.1",
+  "description": "Chrome extension which allows you to watch for proper offer inside sites like gumtree and olx using filters. Application based on angularJS 1.4.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kemal Erdem",
+  "license": "BSD-2-Clause"
+}
