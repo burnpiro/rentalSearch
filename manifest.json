@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Gumtree/Olx rentals live feed",
+  "description": "Live updates about gumtree/olx offers",
+  "version": "0.0.1",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Live HTTP headers",
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "http://olx.pl/",
+    "storage"
+  ],
+  "content_security_policy": "script-src 'unsafe-eval'; object-src 'unsafe-eval'"
+}
