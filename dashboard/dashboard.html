@@ -1,1 +1,16 @@
-Dashboard template
+<md-content>
+    <md-list>
+        <md-item ng-repeat="item in items | orderBy:'-id'">
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{item.img}}" class="pic" alt="no photo">
+                </div>
+                <div class="md-tile-content">
+                    <h3>{{item.name}}</h3>
+                    <h4>{{item.price}} - {{item.newOne}} - {{item.id}}</h4>
+                </div>
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-item>
+    </md-list>
+</md-content>

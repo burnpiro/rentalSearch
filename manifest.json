@@ -4,7 +4,7 @@
   "description": "Live updates about gumtree/olx offers",
   "version": "0.0.1",
   "background": {
-    "scripts": ["background.js"],
+    "page": "background.html",
     "persistent": true
   },
   "browser_action": {
