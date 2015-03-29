@@ -1,0 +1,64 @@
+<div ng-controller="SettingsController as ctrl">
+<md-content class="md-padding">
+    <form name="settingsForm">
+        <div layout>
+            <md-switch flex="75" ng-model="ctrl.settings.advanced" aria-label="advanced">
+                Advanced mode
+            </md-switch>
+            <md-button class="md-fab md-mini md-primary" aria-label="Save" ng-click="ctrl.saveSettings()">
+                <md-icon md-svg-src="assets/ic_save_24px.svg"></md-icon>
+            </md-button>
+        </div>
+        <div ng-if="ctrl.settings.advanced">
+            <md-input-container md-no-float>
+                <md-icon md-svg-src="assets/ic_insert_link_48px.svg" class="md-primary"></md-icon>
+                <input ng-model="ctrl.settings.olxLink" type="url" ng-required="true" placeholder="Olx link">
+            </md-input-container>
+        </div>
+        <div ng-if="!ctrl.settings.advanced">
+            <md-autocomplete flex
+                             md-selected-item="ctrl.settings.location"
+                             md-search-text="ctrl.settings.location.display"
+                             md-items="item in ctrl.querySearch(ctrl.settings.location.display)"
+                             md-item-text="item.display"
+                             md-floating-label="Location">
+                <span md-highlight-text="ctrl.settings.location.display">{{item.display}}</span>
+            </md-autocomplete>
+            <div layout layout-xs="column">
+                <md-input-container flex="50">
+                    <label>Price from</label>
+                    <input ng-model="ctrl.settings.priceFrom" type="number" placeholder="Min Price">
+                </md-input-container>
+                <md-input-container flex="50">
+                    <label>Price to</label>
+                    <input ng-model="ctrl.settings.priceTo" type="number" placeholder="Max Price">
+                </md-input-container>
+            </div>
+
+            <div layout layout-xs="column">
+                <md-input-container flex="50">
+                    <label>Area from</label>
+                    <input ng-model="ctrl.settings.areaFrom" type="number" placeholder="Min Area">
+                </md-input-container>
+                <md-input-container flex="50">
+                    <label>Area to</label>
+                    <input ng-model="ctrl.settings.areaTo" type="number" placeholder="Max Area">
+                </md-input-container>
+            </div>
+            <p>Ownership</p>
+            <md-radio-group ng-model="ctrl.settings.owner">
+                <md-radio-button value="both" class="md-primary">Both</md-radio-button>
+                <md-radio-button value="private" class="md-primary">Private</md-radio-button>
+                <md-radio-button value="agency" class="md-primary">Agency</md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout>
+            <div flex="15" layout layout-align="center center">
+                <span>Interval (min)</span>
+            </div>
+            <md-slider flex="80" class="md-primary" md-discrete ng-model="ctrl.settings.interval" step="1" min="1" max="30" aria-label="rating">
+            </md-slider>
+        </div>
+    </form>
+</md-content>
+</div>

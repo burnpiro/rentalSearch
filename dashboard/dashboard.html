@@ -1,13 +1,17 @@
 <md-content>
     <md-list>
-        <md-item ng-repeat="item in items | orderBy:'-id'">
+        <md-item ng-repeat="item in items">
             <md-item-content>
                 <div class="md-tile-left">
                     <img ng-src="{{item.img}}" class="pic" alt="no photo">
                 </div>
                 <div class="md-tile-content">
                     <h3>{{item.name}}</h3>
-                    <h4>{{item.price}} - {{item.newOne}} - {{item.id}}</h4>
+                    <h4>{{item.price}} - {{item.seen}}</h4>
+                </div>
+                <div class="md-tile-right">
+                    <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="changeSeen(item.hashId)" aria-label="Already seen">
+                    </md-checkbox>
                 </div>
             </md-item-content>
             <md-divider ng-if="!$last"></md-divider>

@@ -9,13 +9,10 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     </head>
     <body>
-        <md-toolbar md-scroll-shrink>
-            <div class="md-toolbar-tools">
-                <h3>
-                    <span>My App Title</span>
-                </h3>
-            </div>
-        </md-toolbar>
+        <md-tabs class="md-primary" md-selected="data.selectedIndex">
+            <md-tab id="tab1" label="List" ui-sref="home"></md-tab>
+            <md-tab id="tab2" label="Settings" ui-sref="settings"></md-tab>
+        </md-tabs>
         <div ui-view></div>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/angular/angular.min.js"></script>
@@ -24,8 +21,10 @@
         <script src="bower_components/angular-aria/angular-aria.min.js"></script>
         <script src="bower_components/angular-material/angular-material.min.js"></script>
         <script src="bower_components/lodash/lodash.min.js"></script>
+        <script src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
         <script src="app.js"></script>
         <script src="dashboard/dashboard.js"></script>
+        <script src="settings/settings.js"></script>
     </body>
 </html>
 

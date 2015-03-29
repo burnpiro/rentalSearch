@@ -1,5 +1,6 @@
 body {
-    min-width: 304px;
+    min-width: 364px;
+    overflow-x: hidden;
 }
 
 .pic {
