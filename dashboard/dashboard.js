@@ -1,12 +1,13 @@
 (function () {
     angular.module('RentalSearchApp')
 
-        .controller('DashboardController', ['$scope',
-            function($scope) {
+        .controller('DashboardController', ['$scope', '$rootScope',
+            function($scope, $rootScope) {
                 $scope.list = {
                     higher: 0
                 };
                 $scope.items = [];
+                $rootScope.selectedTab = 0;
 
                 chrome.runtime.sendMessage({get: 'list'}, function(response) {
                     $scope.items = response;

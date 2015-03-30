@@ -1,8 +1,8 @@
 (function () {
     angular.module('RentalSearchApp')
 
-        .controller('SettingsController', ['$scope', '$state',
-            function($scope, $state) {
+        .controller('SettingsController', ['$scope',
+            function($scope) {
                 var self = this;
                 self.settings = {
                     advanced: false
@@ -57,8 +57,6 @@
 
                 self.saveSettings = function() {
                     chrome.runtime.sendMessage({settings: self.settings, set:'settings'}, function() {
-                        console.log('response');
-                        $state.go('home');
                     });
                 };
 

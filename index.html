@@ -9,11 +9,11 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     </head>
     <body>
-        <md-tabs class="md-primary" md-selected="data.selectedIndex">
+        <md-tabs class="md-primary" md-selected="selectedTab">
             <md-tab id="tab1" label="List" ui-sref="home"></md-tab>
             <md-tab id="tab2" label="Settings" ui-sref="settings"></md-tab>
         </md-tabs>
-        <div ui-view></div>
+        <div ui-view class="content"></div>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/angular/angular.min.js"></script>
         <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>

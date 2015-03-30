@@ -53,9 +53,7 @@ angular.module('RentalBackgroundApp', [
                     sendResponse('Success');
                     break;
                 case 'settings':
-                    console.log('saving settings...');
                     setSettings(request.settings);
-                    sendResponse('Success');
                     break;
             }
         });
@@ -128,7 +126,7 @@ angular.module('RentalBackgroundApp', [
                     setOlxList(list);
                 }).
                 error(function(data,status,headers,config) {
-                    console.log(status, config, data);
+                    console.log('error :(', status, config, data);
                 });
         };
 
@@ -159,7 +157,6 @@ angular.module('RentalBackgroundApp', [
         setSettings = function (settings) {
             chrome.storage.sync.set({settings: settings}, function() {
                 // No need to notify that settings has been saved.
-                console.log(settings);
                 chrome.storage.local.clear();
                 list = [];
                 getSettings();
@@ -168,9 +165,7 @@ angular.module('RentalBackgroundApp', [
 
         getSettings = function () {
             chrome.storage.sync.get('settings', function(storedSettings) {
-                console.log(storedSettings);
                 if(!_.isUndefined(storedSettings.settings) && !_.isUndefined(storedSettings.settings.olxLink)) {
-                    console.log('settings loaded', storedSettings);
                     settings = storedSettings.settings;
                 }
                 getOldOlxList();

@@ -10,3 +10,8 @@ body {
     height: 48px;
     margin: 16px;
 }
+
+.content {
+    max-height: 92%;
+    overflow-y: auto;
+}
