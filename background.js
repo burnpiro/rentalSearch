@@ -16,6 +16,7 @@ angular.module('RentalBackgroundApp', [
         var settings = {
             interval: 1,
             olxLink: 'http://olx.pl/nieruchomosci/mieszkania/wynajem/',
+            gumtreeLink: 'http://www.gumtree.pl/f-SearchAdRss?CatId=9008&Location=202',
             advanced: true,
             location: {
                 display: '',
@@ -28,7 +29,8 @@ angular.module('RentalBackgroundApp', [
             areaTo: null,
             areaFrom: null
         };
-        var getOldOlxList, setOlxList, getDataFromOlx, getUnseen, getSettings, setSettings, prepareOlxLink;
+        var setList, getDataFromOlx, getUnseen, getSettings, setSettings, prepareOlxLink,
+            getDataFromGumtree, getOldList, checkIfNotToMuchData;
 
         $scope.counter = 0;
 
@@ -44,11 +46,17 @@ angular.module('RentalBackgroundApp', [
             switch (request.set) {
                 case 'seen':
                     if(!_.isUndefined(request.seen)) {
-                        _.find(list, function(el) {
-                            return el.hashId === parseInt(request.seen);
-                        }).seen = true;
+                        if(request.type === 'olx') {
+                            _.find(list, function(el) {
+                                return el.hashId === parseInt(request.seen);
+                            }).seen = true;
+                        } else if(request.type === 'gumtree') {
+                            _.find(list, function(el) {
+                                return el.id === parseInt(request.seen);
+                            }).seen = true;
+                        }
                         chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
-                        setOlxList(list);
+                        setList(list);
                     }
                     sendResponse('Success');
                     break;
@@ -58,7 +66,7 @@ angular.module('RentalBackgroundApp', [
             }
         });
 
-        getOldOlxList = function() {
+        getOldList = function() {
             chrome.storage.local.get(function(items) {
                 _.forEach(items, function(item) {
                     if(!_.isUndefined(item.id)) {
@@ -66,12 +74,12 @@ angular.module('RentalBackgroundApp', [
                     }
                 });
             });
-            getDataFromOlx()
+            getDataFromOlx();
+            getDataFromGumtree();
         };
 
-        setOlxList = function(elements) {
+        setList = function(elements) {
             var olxData = {
-                name: 'olx'
             };
             _.forEach(elements, function(element, index) {
                 olxData[index] = element;
@@ -113,7 +121,8 @@ angular.module('RentalBackgroundApp', [
                                     name: $(element).find('.linkWithHash span').html(),
                                     link: $(element).find('.linkWithHash').attr('href'),
                                     img: $(element).find('.linkWithHash img').attr('src'),
-                                    seen: false
+                                    seen: false,
+                                    type: 'olx'
                                 });
                             }
                         }
@@ -123,7 +132,43 @@ angular.module('RentalBackgroundApp', [
                     });
 
                     chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
-                    setOlxList(list);
+                    setList(list);
+                }).
+                error(function(data,status,headers,config) {
+                    console.log('error :(', status, config, data);
+                });
+        };
+
+        getDataFromGumtree = function() {
+            var gumtreeLink = settings.gumtreeLink;
+
+            if(!settings.advanced) {
+                gumtreeLink = prepareGumtreeLink();
+            }
+            console.log(gumtreeLink);
+            // cannot use $http.jsonp() because of Content Security Policy
+            $http.get(gumtreeLink)
+                .success(function(data) {
+                    var feed = $(data);
+
+                    feed.find('item').each(function(index, element) {
+                        var gumtreeElement = {
+                            name: _.trim($(element).find('title').text()),
+                            link: $(element).find('guid').html(),
+                            date: _.trim($(element).find("pubdate").html()),
+                            id: parseInt((new Date(_.trim($(element).find("pubdate").html()))).valueOf()),
+                            seen: false,
+                            type: 'gumtree'
+                        };
+                        if(_.isUndefined(_.find(list, { 'type': 'gumtree', 'id': gumtreeElement.id }))) {
+                            list.unshift(gumtreeElement);
+                        }else {
+                            console.log(gumtreeElement.id, gumtreeElement.date)
+                        }
+                    });
+
+                    chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
+                    setList(list);
                 }).
                 error(function(data,status,headers,config) {
                     console.log('error :(', status, config, data);
@@ -149,12 +194,38 @@ angular.module('RentalBackgroundApp', [
                 link += 'search[filter_float_m:to]='+settings.areaTo+'&';
             }
             if(!_.isNull(settings.owner) && settings.owner !== 'both' && !_.isUndefined(settings.owner)) {
-                link += 'search[private_business]='+settings.owner === 'private' ? 'private' : 'business'+'&';
+                link += 'search[private_business]='+(settings.owner === 'private' ? 'private' : 'business')+'&';
+            }
+            return link;
+        };
+
+
+        prepareGumtreeLink = function() {
+            var link = 'http://www.gumtree.pl/f-SearchAdRss?CatId=9008';
+            if(settings.location.display !== '' && settings.location.value !== null) {
+                link += '&Location='+settings.location.value;
+            }
+            link += '&';
+            if(!_.isNull(settings.priceTo) && !_.isUndefined(settings.priceTo)) {
+                link += 'maxPrice='+settings.priceTo+'&';
+            }
+            if(!_.isNull(settings.priceFrom) && !_.isUndefined(settings.priceFrom)) {
+                link += 'minPrice='+settings.priceFrom+'&';
+            }
+            if(!_.isNull(settings.areaFrom) && !_.isUndefined(settings.areaFrom)) {
+                link += 'A_AreaInMeters_min='+settings.areaFrom+'&';
+            }
+            if(!_.isNull(settings.areaTo) && !_.isUndefined(settings.areaTo)) {
+                link += 'A_AreaInMeters_max='+settings.areaTo+'&';
+            }
+            if(!_.isNull(settings.owner) && settings.owner !== 'both' && !_.isUndefined(settings.owner)) {
+                link += 'A_ForRentBy='+(settings.owner === 'private' ? 'ownr' : 'agncy')+'&';
             }
             return link;
         };
 
         setSettings = function (settings) {
+            console.log(settings);
             chrome.storage.sync.set({settings: settings}, function() {
                 // No need to notify that settings has been saved.
                 chrome.storage.local.clear();
@@ -168,12 +239,27 @@ angular.module('RentalBackgroundApp', [
                 if(!_.isUndefined(storedSettings.settings) && !_.isUndefined(storedSettings.settings.olxLink)) {
                     settings = storedSettings.settings;
                 }
-                getOldOlxList();
+                getOldList();
+                console.log(storedSettings);
             });
+        };
+
+        checkIfNotToMuchData = function() {
+            if(list.length > 500) {
+                var tempList = [];
+                for(var i =0; i<500; i++) {
+                    tempList.push(list[i]);
+                }
+                list = tempList;
+                chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
+                setList(list);
+            }
         };
 
         getSettings();
         $interval(function() {
             getDataFromOlx();
+            getDataFromGumtree();
+            checkIfNotToMuchData();
         }, settings.interval*60*1000);
     }]);
