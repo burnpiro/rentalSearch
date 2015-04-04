@@ -1,28 +1,23 @@
 (function () {
-    angular.module('RentalSearchApp', [
-        'ui.router', 'ngMaterial', 'ngMdIcons'
-    ])
-        .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $mdIconProvider) {
+    angular.module('RentalSearchApp')
+        .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
             $urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('home', {
                     name: 'dashboard',
                     url: '/',
                     controller: 'DashboardController',
-                    templateUrl: 'dashboard/dashboard.html'
+                    templateUrl: 'app/components/dashboard/dashboardView.html'
                 })
                 .state('settings', {
                     name: 'settings',
                     url: '/settings',
                     controller: 'SettingsController',
-                    templateUrl: 'settings/settings.html'
+                    templateUrl: 'app/components/settings/settingsView.html'
                 });
             $mdThemingProvider.theme('altTheme')
                 .primaryPalette('green')
                 .accentPalette('light-blue');
             $mdThemingProvider.setDefaultTheme('altTheme');
-            $mdIconProvider
-                .iconSet('social', 'assets/svg-sprite-social.svg')
-                .defaultIconSet('assets/svg-sprite-action.svg');
         });
 })();
