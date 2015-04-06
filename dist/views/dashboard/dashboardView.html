@@ -1,0 +1,50 @@
+<md-content>
+    <md-tabs md-selected="selection" md-stretch-tabs="always" md-no-bar>
+        <md-tab id="olxTab">
+            <md-tab-template>
+                <md-list class="slide">
+                    <md-item ng-repeat="item in items | filter:{ type: 'olx' }">
+                        <md-tab-label>Olx
+                            </md-tab-label>
+                        <md-item-content>
+                            <div class="md-tile-left">
+                                <img ng-src="{{item.img}}" class="pic" alt="no photo">
+                            </div>
+                            <div class="md-tile-content">
+                                <a href="{{item.link}}" target="_blank"><h3>{{item.name}}</h3></a>
+                                <h4>{{item.price}}</h4>
+                            </div>
+                            <div class="md-tile-right">
+                                <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="changeSeen(item.hashId, 'olx')" aria-label="Already seen">
+                                </md-checkbox>
+                            </div>
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-item>
+                </md-list>
+            </md-tab-template>
+        </md-tab>
+        <md-tab id="gumtreeTab">
+            <md-tab-template>
+                <md-list class="slide">
+                    <md-item ng-repeat="item in items | filter:{ type: 'gumtree' } | orderBy:'-id'">
+                        <md-tab-label>Gumtree
+                        </md-tab-label>
+                        <md-item-content>
+                            <div class="md-tile-content">
+                                <a href="{{item.link}}" target="_blank"><h3>{{item.name}}</h3></a>
+                                <h4>{{item.id | date:'H:mm:ss, dd-MM-yyyy'}}</h4>
+                            </div>
+                            <div class="md-tile-right">
+                                <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="changeSeen(item.id, 'gumtree')" aria-label="Already seen">
+                                </md-checkbox>
+                            </div>
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-item>
+                </md-list>
+            </md-tab-template>
+        </md-tab>
+    </md-tabs>
+    </div>
+</md-content>

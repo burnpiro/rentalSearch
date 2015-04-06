@@ -1,0 +1,18 @@
+body {
+    min-width: 364px;
+    overflow-x: hidden;
+}
+
+.pic {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    width: 48px;
+    height: 48px;
+    margin: 16px;
+}
+
+.content {
+    max-height: 92%;
+    overflow-y: auto;
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNzcy9zdHlsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSIsImZpbGUiOiJzdHlsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJib2R5IHtcbiAgICBtaW4td2lkdGg6IDM2NHB4O1xuICAgIG92ZXJmbG93LXg6IGhpZGRlbjtcbn1cblxuLnBpYyB7XG4gICAgYm9yZGVyLXJhZGl1czogMTBweDtcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjZGRkO1xuICAgIHdpZHRoOiA0OHB4O1xuICAgIGhlaWdodDogNDhweDtcbiAgICBtYXJnaW46IDE2cHg7XG59XG5cbi5jb250ZW50IHtcbiAgICBtYXgtaGVpZ2h0OiA5MiU7XG4gICAgb3ZlcmZsb3cteTogYXV0bztcbn0iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0= */
