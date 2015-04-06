@@ -65,7 +65,7 @@
                     gumtreeLink += '&'+locationSpliter+''+gumData[1];
                 }
                 if(!_.isUndefined(link.split('?')[1])) {
-                    gumtreeLink += '&'+self.settings.gumtreeLink.split('?')[1];
+                    gumtreeLink += '&'+link.split('?')[1];
                 }
                 return gumtreeLink
             };
