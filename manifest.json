@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Gumtree/Olx rentals live feed",
-  "description": "Live updates about gumtree/olx offers",
-  "version": "0.0.1",
+  "name": "RentalWatch - wyszukiwarka mieszkań Gumtree / Olx",
+  "description": "Szukanie mieszkania jest ciężkie a najlepsze okazje szybko uciekają. Ten dodatek pozwoli na otrzymywanie natychmiastowych powiadomień o interesujących mieszkaniach z serwisów olx.pl oraz gumtree.pl",
+  "version": "0.1.0",
   "background": {
     "page": "background.html",
     "persistent": true

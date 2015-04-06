@@ -7,13 +7,13 @@
                     name: 'dashboard',
                     url: '/',
                     controller: 'DashboardController',
-                    templateUrl: 'app/components/dashboard/dashboardView.html'
+                    templateUrl: 'views/dashboard/dashboardView.html'
                 })
                 .state('settings', {
                     name: 'settings',
                     url: '/settings',
                     controller: 'SettingsController',
-                    templateUrl: 'app/components/settings/settingsView.html'
+                    templateUrl: 'views/settings/settingsView.html'
                 });
             $mdThemingProvider.theme('altTheme')
                 .primaryPalette('green')
