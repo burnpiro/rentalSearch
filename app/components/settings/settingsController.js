@@ -13,10 +13,10 @@
                 self.items = [];
 
                 chrome.runtime.sendMessage({get: 'settings'}, function(response) {
-                    if(response.advanced) {
-                        response.gumtreeLink = LinkService.prepareGumtreeLink(response.gumtreeLink);
-                    }
                     self.settings = response;
+                    if(response.advanced) {
+                        self.settings.gumtreeLink = response.gumtreeLinkOriginal;
+                    }
 
                     // needs to be called because after response is received view is already rendered and have empty array
                     $scope.$apply();
@@ -26,6 +26,7 @@
                     var requestData = _.clone(self.settings);
                     if(self.settings.advanced) {
                         requestData.gumtreeLink = LinkService.generateGumtreeLink(self.settings.gumtreeLink);
+                        requestData.gumtreeLinkOriginal = self.settings.gumtreeLink;
                     }
                     chrome.runtime.sendMessage({settings: requestData, set:'settings'}, function() {
                     });

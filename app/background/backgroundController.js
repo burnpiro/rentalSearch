@@ -7,6 +7,7 @@
                     interval: 1,
                     olxLink: 'http://olx.pl/nieruchomosci/mieszkania/wynajem/',
                     gumtreeLink: 'http://www.gumtree.pl/f-SearchAdRss?CatId=9008&Location=202',
+                    gumtreeLinkOriginal: 'http://www.gumtree.pl/fp-mieszkania-i-domy-do-wynajecia/c9008l202',
                     advanced: true,
                     location: {
                         display: '',

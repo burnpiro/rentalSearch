@@ -1,6 +1,6 @@
 {
   "name": "rental-search",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Chrome extension which allows you to watch for proper offer inside sites like gumtree and olx using filters. Application based on angularJS 1.4.",
   "main": "app.js",
   "scripts": {

@@ -33,35 +33,12 @@
                 }
             });
 
-            this.prepareGumtreeLink = function(link) {
-                var gumtreeLinkData = 'http://www.gumtree.pl/fp-mieszkania-i-domy-do-wynajecia/';
-                if(!_.isUndefined(link)) {
-                    var gumtreeLocation = self.parsedLocations.filter( function (location) {
-                        if(!_.isUndefined(link.split(locationSpliter)[1])) {
-                            return location.value === link.split(locationSpliter)[1].split('&')[0];
-                        } else {
-                            return false;
-                        }
-                    });
-                    if(!_.isUndefined(gumtreeLocation[0])) {
-                        gumtreeLinkData += gumtreeLocation[0].name+'/c'+link.split(categorySpliter)[1].split('&')[0]
-                        + 'l' + gumtreeLocation[0].value + '?' + link.split(locationSpliter)[1].split('&')[1];
-                    } else {
-                        gumtreeLinkData += 'c'+link.split(categorySpliter)[1].split('&')[0]
-                        + '?' + (!_.isUndefined(link.split(locationSpliter)[1]) ?
-                            link.split(locationSpliter)[1].split('&')[1] : link.split(categorySpliter)[1].split('&')[1]);
-                    }
-                    return gumtreeLinkData;
-                }
-                return '';
-            };
-
             this.generateGumtreeLink = function(link) {
                 var gumData = link.split('?')[0].split('/c');
                 gumData = gumData[gumData.length-1].split('l');
                 var gumtreeLink = 'http://www.gumtree.pl/f-SearchAdRss?';
                 gumtreeLink += categorySpliter+''+gumData[0];
-                if(_.isUndefined(gumData[1])) {
+                if(!_.isUndefined(gumData[1])) {
                     gumtreeLink += '&'+locationSpliter+''+gumData[1];
                 }
                 if(!_.isUndefined(link.split('?')[1])) {
