@@ -58,6 +58,18 @@
                             }
                             sendResponse('Success');
                             break;
+                        case 'allSeen':
+                            if(!_.isUndefined(request.type)) {
+                                _.forEach(list, function(el) {
+                                    if(el.type === request.type) {
+                                        el.seen = true;
+                                    }
+                                });
+                                chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
+                                setList(list);
+                            }
+                            sendResponse('Success');
+                            break;
                         case 'settings':
                             setSettings(request.settings);
                             break;

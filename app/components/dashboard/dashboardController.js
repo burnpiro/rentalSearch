@@ -3,23 +3,39 @@
 
         .controller('DashboardController', ['$scope', '$rootScope',
             function($scope, $rootScope) {
-                $scope.list = {
+                var self = this;
+                self.list = {
                     higher: 0
                 };
-                $scope.items = [];
+                self.seen = {
+                    olx: false,
+                    gumtree: false
+                };
+                self.items = [];
                 $rootScope.selectedTab = 0;
-                $scope.selection = 'default';
+                self.selection = 'default';
 
                 chrome.runtime.sendMessage({get: 'list'}, function(response) {
-                    $scope.items = response;
+                    self.items = response;
                     // needs to be called because after response is received view is already rendered and have empty array
                     $scope.$apply();
                 });
 
-                $scope.changeSeen = function(hashId, type) {
+                self.changeSeen = function(hashId, type) {
                     chrome.runtime.sendMessage({seen: hashId, set:'seen', type: type}, function() {
                         //no response needed
                     });
+                };
+
+                self.markAllAsSeen = function(type) {
+                    chrome.runtime.sendMessage({set:'allSeen', type: type}, function() {
+                        //no response needed
+                    });
+                    _.forEach(self.items, function(item) {
+                        if(item.type === type) {
+                            item.seen = true;
+                        }
+                    })
                 };
             }
         ]);
