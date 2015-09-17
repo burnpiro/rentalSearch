@@ -7,7 +7,7 @@
                 self.settings = {
                     interval: 1,
                     olxLink: 'http://olx.pl/nieruchomosci/mieszkania/wynajem/',
-                    gumtreeLink: 'http://www.gumtree.pl/fp-mieszkania-i-domy-do-wynajecia/c9008',
+                    gumtreeLink: 'http://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008p1',
                     advanced: false,
                     automaticallyMarkAsSeen: false
                 };
@@ -16,7 +16,7 @@
                 chrome.runtime.sendMessage({get: 'settings'}, function(response) {
                     self.settings = response;
                     if(response.advanced) {
-                        self.settings.gumtreeLink = response.gumtreeLinkOriginal;
+                        self.settings.gumtreeLink = response.gumtreeLink;
                     }
 
                     // needs to be called because after response is received view is already rendered and have empty array
@@ -26,8 +26,7 @@
                 self.saveSettings = function() {
                     var requestData = _.clone(self.settings);
                     if(self.settings.advanced) {
-                        requestData.gumtreeLink = LinkService.generateGumtreeLink(self.settings.gumtreeLink);
-                        requestData.gumtreeLinkOriginal = self.settings.gumtreeLink;
+                        requestData.gumtreeLink = self.settings.gumtreeLink;
                     }
                     chrome.runtime.sendMessage({settings: requestData, set:'settings'}, function() {
                     });

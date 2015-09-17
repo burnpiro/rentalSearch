@@ -33,20 +33,6 @@
                 }
             });
 
-            this.generateGumtreeLink = function(link) {
-                var gumData = link.split('?')[0].split('/c');
-                gumData = gumData[gumData.length-1].split('l');
-                var gumtreeLink = 'http://www.gumtree.pl/f-SearchAdRss?';
-                gumtreeLink += categorySpliter+''+gumData[0];
-                if(!_.isUndefined(gumData[1])) {
-                    gumtreeLink += '&'+locationSpliter+''+gumData[1];
-                }
-                if(!_.isUndefined(link.split('?')[1])) {
-                    gumtreeLink += '&'+link.split('?')[1];
-                }
-                return gumtreeLink
-            };
-
             this.getOlxLinkBySettings = function(settings) {
                 var link = 'http://olx.pl/nieruchomosci/mieszkania/wynajem/';
                 if(settings.location.display !== '' && settings.location.name !== null) {

@@ -6,8 +6,7 @@
                 var settings = {
                     interval: 1,
                     olxLink: 'http://olx.pl/nieruchomosci/mieszkania/wynajem/',
-                    gumtreeLink: 'http://www.gumtree.pl/f-SearchAdRss?CatId=9008&Location=202',
-                    gumtreeLinkOriginal: 'http://www.gumtree.pl/fp-mieszkania-i-domy-do-wynajecia/c9008l202 ',
+                    gumtreeLink: 'http://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008p1',
                     advanced: true,
                     location: {
                         display: '',
@@ -44,15 +43,9 @@
                     switch (request.set) {
                         case 'seen':
                             if(!_.isUndefined(request.seen)) {
-                                if(request.type === 'olx') {
-                                    _.find(list, function(el) {
-                                        return el.hashId === parseInt(request.seen);
-                                    }).seen = true;
-                                } else if(request.type === 'gumtree') {
-                                    _.find(list, function(el) {
-                                        return el.id === parseInt(request.seen);
-                                    }).seen = true;
-                                }
+                                _.find(list, function(el) {
+                                    return el.hashId === parseInt(request.seen);
+                                }).seen = true;
                                 chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
                                 setList(list);
                             }
@@ -128,7 +121,7 @@
                                             hashId: parseInt(id),
                                             date: new Date(),
                                             price: _.trim($(element).find('.td-price .c000').html()),
-                                            name: $(element).find('.linkWithHash span').html(),
+                                            name: $(element).find('.linkWithHash strong').html(),
                                             link: $(element).find('.linkWithHash').attr('href'),
                                             img: $(element).find('.linkWithHash img').attr('src'),
                                             seen: false,
@@ -156,30 +149,46 @@
                         gumtreeLink = LinkService.getGumtreeLinkBySettings(settings);
                     }
                     // cannot use $http.jsonp() because of Content Security Policy
-                    $http.get(gumtreeLink)
-                        .success(function(data) {
-                            var feed = $(data);
+                    for(var i=1; i<6; i++) {
+                        var pageLink = gumtreeLink;
+                        if(i>1) {
+                            pageLink = gumtreeLink.split('/v1')[0]+'/page-'+i+'/v1'
+                            +gumtreeLink.split('/v1')[1].slice(0, gumtreeLink.split('/v1')[1].indexOf('p1'))
+                            +'p'+i+gumtreeLink.split('/v1')[1].slice(gumtreeLink.split('/v1')[1].indexOf('p1')+2);
+                        }
+                        $http.get(pageLink)
+                            .success(function(data) {
+                                var feed = $(data);
+                                var reversedTempData = [];
 
-                            feed.find('item').each(function(index, element) {
-                                var gumtreeElement = {
-                                    name: _.trim($(element).find('title').text()),
-                                    link: $(element).find('guid').html(),
-                                    date: _.trim($(element).find("pubdate").html()),
-                                    id: parseInt((new Date(_.trim($(element).find("pubdate").html()))).valueOf()),
-                                    seen: false,
-                                    type: 'gumtree'
-                                };
-                                if(_.isUndefined(_.find(list, { 'type': 'gumtree', 'id': gumtreeElement.id }))) {
-                                    list.unshift(gumtreeElement);
-                                }
+                                feed.find('.view:not(.top-listings)').find('ul li.result').each(function(index, element) {
+                                    var id = $(element).find('.addAdTofav').attr('data-adid');
+                                    if(_.isUndefined(_.find(list, function(el) {
+                                            return el.hashId === parseInt(id);
+                                        })) && !_.isUndefined(id)) {
+                                        reversedTempData.unshift({
+                                            hashId: parseInt(id),
+                                            price: _.trim($(element).find('.price .amount').html().replace('&nbsp;', ' ')),
+                                            name: _.trim($(element).find('.href-link').text()),
+                                            link: 'http://www.gumtree.pl'+$(element).find('.href-link').attr('href'),
+                                            date: new Date(),
+                                            seen: false,
+                                            type: 'gumtree'
+                                        });
+                                    }
+                                });
+
+                                _.forEach(reversedTempData, function(element) {
+                                    list.unshift(element);
+                                });
+
+                                chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
+                                setList(list);
+                            }).
+                            error(function(data,status,headers,config) {
+                                console.log('error :(', status, config, data);
                             });
-
-                            chrome.browserAction.setBadgeText({text: ''+getUnseen()+''});
-                            setList(list);
-                        }).
-                        error(function(data,status,headers,config) {
-                            console.log('error :(', status, config, data);
-                        });
+                    }
                 };
 
                 setSettings = function (settings) {

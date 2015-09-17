@@ -3,7 +3,7 @@
   "name": "RentalWatch - wyszukiwarka Gumtree / Olx",
   "short_name": "Wyszukiwarka mieszkań na wynajem",
   "description": "Ten dodatek pozwoli na otrzymywanie natychmiastowych powiadomień o interesujących mieszkaniach z serwisów olx.pl oraz gumtree.pl",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "background": {
     "page": "background.html",
     "persistent": true
