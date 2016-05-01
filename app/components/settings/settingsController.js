@@ -4,17 +4,46 @@
         .controller('SettingsController', ['$scope', 'LinkService',
             function($scope, LinkService) {
                 var self = this;
+                self.sizeTypes = [
+                    {
+                        value: null,
+                        name: 'All'
+                    },
+                    {
+                        value: 'one',
+                        name: 'Kawalerka'
+                    },
+                    {
+                        value: 'two',
+                        name: '2'
+                    },
+                    {
+                        value: 'three',
+                        name: '3'
+                    },
+                    {
+                        value: 'four',
+                        name: '4+'
+                    }
+                ];
+
                 self.settings = {
                     interval: 1,
                     olxLink: 'http://olx.pl/nieruchomosci/mieszkania/wynajem/',
                     gumtreeLink: 'http://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008p1',
                     advanced: false,
-                    automaticallyMarkAsSeen: false
+                    automaticallyMarkAsSeen: false,
+                    sizeType: null,
+                    location: {},
+                    locationDisplay: ''
                 };
                 self.items = [];
 
                 chrome.runtime.sendMessage({get: 'settings'}, function(response) {
                     self.settings = response;
+                    if(angular.isDefined(self.settings.location)) {
+                        self.settings.locationDisplay = self.settings.location.display;
+                    }
                     if(response.advanced) {
                         self.settings.gumtreeLink = response.gumtreeLink;
                     }
@@ -33,8 +62,8 @@
                 };
 
                 self.querySearch = function(query) {
-                    var results = query ? LinkService.searchLocationByName(query) : [];
-                    return results;
+                    console.log(query);
+                    return query ? LinkService.searchLocationByName(query) : [];
                 };
 
             }

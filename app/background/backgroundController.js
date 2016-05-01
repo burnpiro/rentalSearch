@@ -6,7 +6,7 @@
                 var settings = {
                     interval: 1,
                     olxLink: 'http://olx.pl/nieruchomosci/mieszkania/wynajem/',
-                    gumtreeLink: 'http://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008p1',
+                    gumtreeLink: 'http://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008',
                     advanced: true,
                     location: {
                         display: '',
@@ -152,9 +152,8 @@
                     for(var i=1; i<6; i++) {
                         var pageLink = gumtreeLink;
                         if(i>1) {
-                            pageLink = gumtreeLink.split('/v1')[0]+'/page-'+i+'/v1'
-                            +gumtreeLink.split('/v1')[1].slice(0, gumtreeLink.split('/v1')[1].indexOf('p1'))
-                            +'p'+i+gumtreeLink.split('/v1')[1].slice(gumtreeLink.split('/v1')[1].indexOf('p1')+2);
+                            pageLink = gumtreeLink.split('p1?')[0]+'p'+i+'?'
+                            +gumtreeLink.split('p1?')[1];
                         }
                         $http.get(pageLink)
                             .success(function(data) {
@@ -171,6 +170,7 @@
                                             price: _.trim($(element).find('.price .amount').html().replace('&nbsp;', ' ')),
                                             name: _.trim($(element).find('.href-link').text()),
                                             link: 'http://www.gumtree.pl'+$(element).find('.href-link').attr('href'),
+                                            img: $(element).find('#img-cnt img').attr('src'),
                                             date: new Date(),
                                             seen: false,
                                             type: 'gumtree'

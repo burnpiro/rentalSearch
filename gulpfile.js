@@ -82,7 +82,7 @@ gulp.task('images', ['clean'], function() {
 
 gulp.task('css', ['clean'], function() {
     // Copy angular material css
-    return gulp.src('bower_components/angular-material/angular-material.min.css')
+    gulp.src('bower_components/angular-material/angular-material.min.css')
         .pipe(gulp.dest('dist/css'));
     // Copy and concat all css
     return gulp.src(paths.css)

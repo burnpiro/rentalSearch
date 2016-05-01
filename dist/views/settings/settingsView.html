@@ -25,12 +25,19 @@
         <div ng-if="!ctrl.settings.advanced">
             <md-autocomplete flex
                              md-selected-item="ctrl.settings.location"
-                             md-search-text="ctrl.settings.location.display"
-                             md-items="item in ctrl.querySearch(ctrl.settings.location.display)"
+                             md-search-text="ctrl.settings.locationDisplay"
+                             md-items="item in ctrl.querySearch(ctrl.settings.locationDisplay)"
                              md-item-text="item.display"
                              md-floating-label="Location">
-                <span md-highlight-text="ctrl.settings.location.display">{{item.display}}</span>
+                <span>{{item.display}}</span>
             </md-autocomplete>
+
+            <div layout layout-xs="column">
+                <md-select ng-model="ctrl.settings.sizeType" placeholder="Number of rooms">
+                    <md-option ng-repeat="sizeType in ctrl.sizeTypes" ng-value="sizeType.value">{{sizeType.name}}</md-option>
+                </md-select>
+            </div>
+
             <div layout layout-xs="column">
                 <md-input-container flex="50">
                     <label>Price from</label>
@@ -42,16 +49,6 @@
                 </md-input-container>
             </div>
 
-            <div layout layout-xs="column">
-                <md-input-container flex="50">
-                    <label>Area from</label>
-                    <input ng-model="ctrl.settings.areaFrom" type="number" placeholder="Min Area">
-                </md-input-container>
-                <md-input-container flex="50">
-                    <label>Area to</label>
-                    <input ng-model="ctrl.settings.areaTo" type="number" placeholder="Max Area">
-                </md-input-container>
-            </div>
             <p>Ownership</p>
             <md-radio-group ng-model="ctrl.settings.owner">
                 <md-radio-button value="both" class="md-primary">Both</md-radio-button>

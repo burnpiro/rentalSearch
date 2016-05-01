@@ -21,7 +21,7 @@
                             </div>
                             <div class="md-tile-content">
                                 <a href="{{item.link}}" target="_blank"><h3>{{item.name}}</h3></a>
-                                <h4>{{item.price}}</h4>
+                                <h4 ng-bind-html-unsafe="html">{{item.price}}</h4>
                             </div>
                             <div class="md-tile-right">
                                 <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="ctrl.changeSeen(item.hashId, 'olx')" aria-label="Already seen">
@@ -36,7 +36,7 @@
         <md-tab id="gumtreeTab">
             <md-tab-template>
                 <md-list class="slide">
-                    <md-item ng-repeat="item in ctrl.items | filter:{ type: 'gumtree' } | orderBy:'-id'">
+                    <md-item ng-repeat="item in ctrl.items | filter:{ type: 'gumtree' }">
                         <md-tab-label>
                             <div layout="row" layout-align="center center">
                                 <div>Gumtree</div>
@@ -48,12 +48,15 @@
                             </div>
                         </md-tab-label>
                         <md-item-content>
+                            <div class="md-tile-left">
+                                <img ng-src="{{item.img}}" class="pic" alt="no photo">
+                            </div>
                             <div class="md-tile-content">
                                 <a href="{{item.link}}" target="_blank"><h3>{{item.name}}</h3></a>
-                                <h4>{{item.id | date:'H:mm:ss, dd-MM-yyyy'}}</h4>
+                                <h4>{{item.price}}</h4>
                             </div>
                             <div class="md-tile-right">
-                                <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="ctrl.changeSeen(item.id, 'gumtree')" aria-label="Already seen">
+                                <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="ctrl.changeSeen(item.hashId, 'gumtree')" aria-label="Already seen">
                                 </md-checkbox>
                             </div>
                         </md-item-content>
