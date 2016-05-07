@@ -11,21 +11,47 @@
                     },
                     {
                         value: 'one',
-                        name: 'Kawalerka'
+                        name: 'Kawalerka / 1 room'
                     },
                     {
                         value: 'two',
-                        name: '2'
+                        name: '2 rooms'
                     },
                     {
                         value: 'three',
-                        name: '3'
+                        name: '3 rooms'
                     },
                     {
                         value: 'four',
-                        name: '4+'
+                        name: '4+ rooms '
                     }
                 ];
+                self.categories = [
+                    {
+                        value: 'mieszkania/wynajem',
+                        name: 'Mieszkania wynajem'
+                    },
+                    {
+                        value: 'stancje-pokoje',
+                        name: 'Pokoje/Stancje'
+                    },
+                    {
+                        value: 'mieszkania/sprzedaz',
+                        name: 'Mieszkania sprzedaz'
+                    },
+                    {
+                        value: 'dzialki',
+                        name: 'Działki'
+                    },
+                    {
+                        value: 'biura-lokale',
+                        name: 'Lokale i biura'
+                    },
+                    {
+                        value: 'garaze-parkingi',
+                        name: 'Parkingi i garaże'
+                    }
+                ]
 
                 self.settings = {
                     interval: 1,
@@ -35,7 +61,8 @@
                     automaticallyMarkAsSeen: false,
                     sizeType: null,
                     location: {},
-                    locationDisplay: ''
+                    locationDisplay: '',
+                    category: 'mieszkania/wynajem'
                 };
                 self.items = [];
 
@@ -46,6 +73,9 @@
                     }
                     if(response.advanced) {
                         self.settings.gumtreeLink = response.gumtreeLink;
+                    }
+                    if(!self.settings.category) {
+                        self.settings.category = 'mieszkania/wynajem';
                     }
 
                     // needs to be called because after response is received view is already rendered and have empty array
@@ -62,7 +92,6 @@
                 };
 
                 self.querySearch = function(query) {
-                    console.log(query);
                     return query ? LinkService.searchLocationByName(query) : [];
                 };
 

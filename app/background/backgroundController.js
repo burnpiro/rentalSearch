@@ -138,7 +138,7 @@
                             setList(list);
                         }).
                         error(function(data,status,headers,config) {
-                            console.log('error :(', status, config, data);
+                            console.log('error :(');
                         });
                 };
 
@@ -186,7 +186,7 @@
                                 setList(list);
                             }).
                             error(function(data,status,headers,config) {
-                                console.log('error :(', status, config, data);
+                                console.log('error :(');
                             });
                     }
                 };
