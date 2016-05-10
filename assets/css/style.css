@@ -15,3 +15,7 @@ body {
     max-height: 92%;
     overflow-y: auto;
 }
+
+a {
+    cursor: pointer;
+}

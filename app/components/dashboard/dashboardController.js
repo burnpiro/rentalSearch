@@ -37,6 +37,11 @@
                         }
                     })
                 };
+
+                self.openLink = function(item) {
+                    self.changeSeen(item.hashId, item.type);
+                    window.open(item.link,'_blank');
+                }
             }
         ]);
 })();

@@ -20,7 +20,7 @@
                                 <img ng-src="{{item.img}}" class="pic" alt="no photo">
                             </div>
                             <div class="md-tile-content">
-                                <a href="{{item.link}}" target="_blank"><h3>{{item.name}}</h3></a>
+                                <a ng-click="ctrl.openLink(item)"><h3>{{item.name}}</h3></a>
                                 <h4 ng-bind-html-unsafe="html">{{item.price}}</h4>
                             </div>
                             <div class="md-tile-right">
@@ -52,7 +52,7 @@
                                 <img ng-src="{{item.img}}" class="pic" alt="no photo">
                             </div>
                             <div class="md-tile-content">
-                                <a href="{{item.link}}" target="_blank"><h3>{{item.name}}</h3></a>
+                                <a ng-click="ctrl.openLink(item)"><h3>{{item.name}}</h3></a>
                                 <h4>{{item.price}}</h4>
                             </div>
                             <div class="md-tile-right">

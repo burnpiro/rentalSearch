@@ -31,8 +31,15 @@
                              md-floating-label="Location">
                 <span>{{item.display}}</span>
             </md-autocomplete>
+            <md-button class="md-warn" ng-if="!ctrl.settings.location || (ctrl.settings.location.display !== ctrl.settings.locationDisplay)">Notice that you didn't select "Location"</md-button>
 
-            <div layout layout-xs="column">
+            <div layout="column" layout-align="start start">
+                <md-select ng-model="ctrl.settings.category" placeholder="Category">
+                    <md-option ng-repeat="category in ctrl.categories" ng-value="category.value">{{category.name}}</md-option>
+                </md-select>
+            </div>
+
+            <div layout="column" layout-align="start start">
                 <md-select ng-model="ctrl.settings.sizeType" placeholder="Number of rooms">
                     <md-option ng-repeat="sizeType in ctrl.sizeTypes" ng-value="sizeType.value">{{sizeType.name}}</md-option>
                 </md-select>
@@ -58,7 +65,7 @@
         </div>
         <div layout>
             <div flex="15" layout layout-align="center center">
-                <span>Interval (min)</span>
+                <span>Refresh time (min)</span>
             </div>
             <md-slider flex="80" class="md-primary" md-discrete ng-model="ctrl.settings.interval" step="1" min="1" max="30" aria-label="rating">
             </md-slider>
