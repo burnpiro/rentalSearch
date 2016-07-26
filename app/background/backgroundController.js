@@ -120,7 +120,7 @@
                                         reversedTempData.unshift({
                                             hashId: parseInt(id),
                                             date: new Date(),
-                                            price: _.trim($(element).find('.td-price .c000').html()),
+                                            price: _.trim($(element).find('p.price strong').html()),
                                             name: $(element).find('.linkWithHash strong').html(),
                                             link: $(element).find('.linkWithHash').attr('href'),
                                             img: $(element).find('.linkWithHash img').attr('src'),

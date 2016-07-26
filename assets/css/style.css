@@ -6,9 +6,9 @@ body {
 .pic {
     border-radius: 10px;
     border: 1px solid #ddd;
-    width: 48px;
-    height: 48px;
-    margin: 16px;
+    width: 80px;
+    height: 64px;
+    margin: 4px 10px;
 }
 
 .content {
