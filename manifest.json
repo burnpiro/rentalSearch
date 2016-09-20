@@ -14,8 +14,12 @@
     "default_popup": "index.html"
   },
   "permissions": [
-    "http://www.gumtree.pl/",
-    "http://olx.pl/",
+    "http://www.gumtree.pl/*",
+    "http://www.olx.pl/*",
+    "http://olx.pl/*",
+    "https://www.gumtree.pl/*",
+    "https://www.olx.pl/*",
+    "https://olx.pl/*",
     "storage"
   ],
   "content_security_policy": "script-src 'unsafe-eval'; object-src 'unsafe-eval'"
