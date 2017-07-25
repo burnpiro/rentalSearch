@@ -77,7 +77,7 @@
                 if(!_.isNull(settings.owner) && settings.owner !== 'both' && !_.isUndefined(settings.owner)) {
                     link += 'search[private_business]='+(settings.owner === 'private' ? 'private' : 'business')+'&';
                 }
-                return link;
+                return [link];
             };
 
             this.getGumtreeLinkBySettings = function(settings) {
@@ -100,7 +100,7 @@
                 if(!_.isNull(settings.owner) && settings.owner !== 'both' && !_.isUndefined(settings.owner)) {
                     link += 'fr='+(settings.owner === 'private' ? 'ownr' : 'agncy')+'&';
                 }
-                return link;
+                return [link];
             };
 
             this.searchLocationByName = function(query) {

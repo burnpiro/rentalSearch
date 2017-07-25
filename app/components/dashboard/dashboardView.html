@@ -1,70 +1,72 @@
 <div ng-controller="DashboardController as ctrl">
-<md-content>
+  <md-content>
     <md-tabs md-selected="selection" md-stretch-tabs="always" md-no-bar>
-        <md-tab id="olxTab">
-            <md-tab-template>
-                <md-list class="slide">
-                    <md-item ng-repeat="item in ctrl.items | filter:{ type: 'olx' }">
-                        <md-tab-label>
-                            <div layout="row" layout-align="center center" >
-                                <div>Olx</div>
-                                <md-checkbox
-                                    ng-model="ctrl.seen.olx"
-                                    ng-disabled="ctrl.seen.olx === true"
-                                    class="md-primary"
-                                    ng-change="ctrl.markAllAsSeen('olx')" aria-label="Mark Olx as seen"></md-checkbox>
-                            </div>
-                            </md-tab-label>
-                        <md-item-content>
-                            <div class="md-tile-left">
-                                <img ng-src="{{item.img}}" class="pic" alt="no photo">
-                            </div>
-                            <div class="md-tile-content">
-                                <a ng-click="ctrl.openLink(item)"><h3>{{item.name}}</h3></a>
-                                <h4 ng-bind-html-unsafe="html">{{item.price}}</h4>
-                            </div>
-                            <div class="md-tile-right">
-                                <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="ctrl.changeSeen(item.hashId, 'olx')" aria-label="Already seen">
-                                </md-checkbox>
-                            </div>
-                        </md-item-content>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-item>
-                </md-list>
-            </md-tab-template>
-        </md-tab>
-        <md-tab id="gumtreeTab">
-            <md-tab-template>
-                <md-list class="slide">
-                    <md-item ng-repeat="item in ctrl.items | filter:{ type: 'gumtree' }">
-                        <md-tab-label>
-                            <div layout="row" layout-align="center center">
-                                <div>Gumtree</div>
-                                <md-checkbox
-                                ng-model="ctrl.seen.gumtree"
-                                ng-disabled="ctrl.seen.gumtree === true"
-                                class="md-primary"
-                                ng-change="ctrl.markAllAsSeen('gumtree')" aria-label="Mark Gumtree as seen"></md-checkbox>
-                            </div>
-                        </md-tab-label>
-                        <md-item-content>
-                            <div class="md-tile-left">
-                                <img ng-src="{{item.img}}" class="pic" alt="no photo">
-                            </div>
-                            <div class="md-tile-content">
-                                <a ng-click="ctrl.openLink(item)"><h3>{{item.name}}</h3></a>
-                                <h4>{{item.price}}</h4>
-                            </div>
-                            <div class="md-tile-right">
-                                <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary" ng-change="ctrl.changeSeen(item.hashId, 'gumtree')" aria-label="Already seen">
-                                </md-checkbox>
-                            </div>
-                        </md-item-content>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-item>
-                </md-list>
-            </md-tab-template>
-        </md-tab>
+      <md-tab id="olxTab">
+        <md-tab-template>
+          <md-list class="slide">
+            <md-item ng-repeat="item in ctrl.items | filter:{ type: 'olx' }">
+              <md-tab-label>
+                <div layout="row" layout-align="center center">
+                  <div>Olx</div>
+                  <md-checkbox
+                    ng-model="ctrl.seen.olx"
+                    ng-disabled="ctrl.seen.olx === true"
+                    class="md-primary"
+                    ng-change="ctrl.markAllAsSeen('olx')" aria-label="Mark Olx as seen"></md-checkbox>
+                </div>
+              </md-tab-label>
+              <md-item-content>
+                <div class="md-tile-left">
+                  <img ng-src="{{item.img}}" class="pic" alt="no photo">
+                </div>
+                <div class="md-tile-content">
+                  <a ng-click="ctrl.openLink(item)"><h3>{{item.name}}</h3></a>
+                  <h4 ng-bind-html-unsafe="html">{{item.price}}</h4>
+                </div>
+                <div class="md-tile-right">
+                  <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary"
+                               ng-change="ctrl.changeSeen(item.hashId, 'olx')" aria-label="Already seen">
+                  </md-checkbox>
+                </div>
+              </md-item-content>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-item>
+          </md-list>
+        </md-tab-template>
+      </md-tab>
+      <md-tab id="gumtreeTab">
+        <md-tab-template>
+          <md-list class="slide">
+            <md-item ng-repeat="item in ctrl.items | filter:{ type: 'gumtree' }">
+              <md-tab-label>
+                <div layout="row" layout-align="center center">
+                  <div>Gumtree</div>
+                  <md-checkbox
+                    ng-model="ctrl.seen.gumtree"
+                    ng-disabled="ctrl.seen.gumtree === true"
+                    class="md-primary"
+                    ng-change="ctrl.markAllAsSeen('gumtree')" aria-label="Mark Gumtree as seen"></md-checkbox>
+                </div>
+              </md-tab-label>
+              <md-item-content>
+                <div class="md-tile-left">
+                  <img ng-src="{{item.img}}" class="pic" alt="no photo">
+                </div>
+                <div class="md-tile-content">
+                  <a ng-click="ctrl.openLink(item)"><h3>{{item.name}}</h3></a>
+                  <h4>{{item.price}}</h4>
+                </div>
+                <div class="md-tile-right">
+                  <md-checkbox ng-model="item.seen" ng-disabled="item.seen === true" class="md-primary"
+                               ng-change="ctrl.changeSeen(item.hashId, 'gumtree')" aria-label="Already seen">
+                  </md-checkbox>
+                </div>
+              </md-item-content>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-item>
+          </md-list>
+        </md-tab-template>
+      </md-tab>
     </md-tabs>
-</md-content>
+  </md-content>
 </div>
