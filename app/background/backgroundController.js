@@ -22,6 +22,7 @@
           priceFrom: null,
           areaTo: null,
           areaFrom: null,
+          allowNotifications: true,
           automaticallyMarkAsSeen: false
         }
         var setList, getDataFromOlx, getUnseen, getSettings, setSettings, prepareOlxLink,
@@ -83,6 +84,11 @@
           })
           getDataFromOlx()
           getDataFromGumtree()
+          checkIfNotToMuchData()
+          var unseen = getUnseen()
+          if(unseen > 0 && settings.allowNotifications) {
+            showNotification(unseen + ' Nowe ogłoszenia', 'Masz nieprzeczytane ogłoszenia zgodne z twoimi kryteriami')
+          }
         }
 
         setList = function (elements) {
@@ -235,6 +241,9 @@
                   storedSettings.settings.gumtreeLink
                 ]
               }
+              if (storedSettings.settings.allowNotifications === undefined) {
+                storedSettings.settings.allowNotifications = true
+              }
               settings = storedSettings.settings
             }
             getOldList()
@@ -253,11 +262,28 @@
           }
         }
 
+        showNotification = function (title, message) {
+          chrome.notifications.create('rentalWatchNotification', {
+            type: 'basic',
+            iconUrl: '/img/mainIcon.png',
+            title: title,
+            message: message
+          }, function(notificationId) {
+            setTimeout(function(){
+              chrome.notifications.clear(notificationId)
+            },3000);
+          })
+        }
+
         getSettings()
         $interval(function () {
           getDataFromOlx()
           getDataFromGumtree()
           checkIfNotToMuchData()
+          var unseen = getUnseen()
+          if(unseen > 0 && settings.allowNotifications) {
+            showNotification(unseen + ' Nowe ogłoszenia', 'Masz nieprzeczytane ogłoszenia zgodne z twoimi kryteriami')
+          }
         }, settings.interval * 60 * 1000)
       }])
 })()
