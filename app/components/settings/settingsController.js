@@ -82,6 +82,28 @@
             self.settings.category = 'mieszkania/wynajem'
           }
 
+          if (typeof self.settings.olxLink === 'string') {
+            self.settings.olxLink = [
+              self.settings.olxLink
+            ]
+          }
+          if (typeof self.settings.gumtreeLink === 'string') {
+            self.settings.gumtreeLink = [
+              self.settings.gumtreeLink
+            ]
+          }
+
+          if (!self.settings.olxLink) {
+            self.settings.olxLink = [
+              ''
+            ]
+          }
+          if (!self.settings.gumtreeLink) {
+            self.settings.gumtreeLink = [
+              ''
+            ]
+          }
+
           // needs to be called because after response is received view is already rendered and have empty array
           $scope.$apply()
         })
