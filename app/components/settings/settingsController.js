@@ -81,27 +81,6 @@
           if (!self.settings.category) {
             self.settings.category = 'mieszkania/wynajem'
           }
-          if (typeof self.settings.olxLink === 'string') {
-            self.settings.olxLink = [
-              self.settings.olxLink
-            ]
-          }
-          if (typeof self.settings.gumtreeLink === 'string') {
-            self.settings.gumtreeLink = [
-              self.settings.gumtreeLink
-            ]
-          }
-
-          if (!self.settings.olxLink) {
-            self.settings.olxLink = [
-              ''
-            ]
-          }
-          if (!self.settings.gumtreeLink) {
-            self.settings.gumtreeLink = [
-              ''
-            ]
-          }
 
           // needs to be called because after response is received view is already rendered and have empty array
           $scope.$apply()
@@ -124,10 +103,10 @@
         }
 
         self.removeOlxLink = function (linkIndex) {
-          delete self.settings.olxLink.splice(linkIndex, 1)
+          self.settings.olxLink.splice(linkIndex, 1)
         }
         self.removeGumtreeLink = function (linkIndex) {
-          delete self.settings.gumtreeLink.splice(linkIndex, 1)
+          self.settings.gumtreeLink.splice(linkIndex, 1)
         }
         self.querySearch = function (query) {
           return query ? LinkService.searchLocationByName(query) : []
@@ -135,4 +114,4 @@
 
       }
     ])
-})()
+})();
