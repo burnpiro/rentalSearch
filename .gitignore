@@ -6,3 +6,4 @@ sauce_connect.log
 .DS_STORE
 temp
 npm-debug.log
+.cache

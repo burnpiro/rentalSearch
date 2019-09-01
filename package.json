@@ -4,24 +4,25 @@
   "description": "Chrome extension which allows you to watch for proper offer inside sites like gumtree and olx using filters. Application based on React.",
   "main": "app/index.html",
   "scripts": {
-    "start": "parcel app/index.html app/background.html",
-    "build": "parcel build app/index.html app/background.html --out-dir dist --no-source-maps  --experimental-scope-hoisting",
+    "start": "parcel app/index.html app/background.ts",
+    "build": "parcel build app/index.html app/background.ts --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kemal Erdem",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.3.3",
+    "@material-ui/core": "^4.4.0",
+    "@material-ui/icons": "^4.2.1",
     "components": "^0.1.0",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-select": "^3.0.4"
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "@types/material-ui": "^0.21.7",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "parcel-bundler": "^1.12.3",
+    "parcel-plugin-static-files-copy": "^2.2.1",
     "prettier": "^1.18.2",
     "typescript": "^3.6.2"
   }
