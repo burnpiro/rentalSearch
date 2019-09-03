@@ -11,6 +11,8 @@ interface Settings {
   sizeType: typeof gumtreeSizeTypes[keyof typeof gumtreeSizeTypes];
   category: keyof typeof gumtreeCategories;
   automaticallyMarkAsSeen: boolean;
+  allowNotifications: boolean;
+  mode: 'basic' | 'advanced';
   owner: 'private' | 'business' | 'both';
   priceFrom: string | null;
   priceTo: string | null;
@@ -28,27 +30,22 @@ interface ListItem {
   seen: boolean;
   hashId: string;
   isInFavourites: boolean;
+  link: string,
   type: "gumtree" | "olx";
 }
 
-interface OLXList {
-  items: ListItem[];
-}
-
-interface GumtreeList {
-  items: ListItem[];
+interface AppState {
+  settings: Settings,
+  list: List,
+  favourites: List
 }
 
 type List = Array<ListItem>;
-
-interface Favourites {
-  items: ListItem[];
-}
 
 export {
   Settings,
   Location,
   ListItem,
   List,
-  Favourites
+  AppState
 }
