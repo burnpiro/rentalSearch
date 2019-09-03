@@ -7,3 +7,4 @@ sauce_connect.log
 temp
 npm-debug.log
 .cache
+dist
