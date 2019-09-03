@@ -7,24 +7,29 @@ You can add check this on google web store [https://chrome.google.com/webstore/d
 ## How to install?
 
 #### Requirements
-npm
-
-bower
+- npm
 
 #### And follow instructions
 
-inside ./ folder run:
+inside `./` folder run:
 
 install npm packages
 
-    npm install
+and create dist with extension package
 
-install bower packages
-
-    bower install
-
-and create dist with zip extension package
-
-    gulp
+```
+npm run build-dev
+```
   
-If you want to add this to your chrome just go to "Extension manager" and click on "Load unpacked extension" (This option is only available when "developr mode" checkbox is checked).
+If you want to add this to your chrome just go to **"Extension manager"** and click on **"Load unpacked extension"** (This option is only available when "developr mode" checkbox is checked).
+
+
+#### Build for production
+
+To build extension as zip package just run
+
+```
+npm run build
+```
+
+It will create `bundle.zip` file with everything in it. That file has to be uploaded into google extension store.

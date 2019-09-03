@@ -8,3 +8,4 @@ temp
 npm-debug.log
 .cache
 dist
+bundle.zip

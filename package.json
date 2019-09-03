@@ -5,9 +5,10 @@
   "main": "app/index.html",
   "scripts": {
     "start": "parcel app/index.html app/background.ts",
-    "build": "npm run clear-dist && parcel build app/index.html app/background.ts --out-dir dist --no-source-maps",
+    "build": "npm run clear-dist && parcel build app/index.html app/background.ts --out-dir dist --no-source-maps && npm run zip-package",
     "build-dev": "npm run clear-dist && parcel build app/index.html app/background.ts --out-dir dist --no-minify",
     "clear-dist": "rm -fr ./dist/*",
+    "zip-package": "bestzip bundle.zip dist/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kemal Erdem",
@@ -23,6 +24,7 @@
     "@types/material-ui": "^0.21.7",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
+    "bestzip": "^2.1.4",
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-static-files-copy": "^2.2.1",
     "prettier": "^1.18.2",
