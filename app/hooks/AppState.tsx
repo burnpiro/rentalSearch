@@ -21,7 +21,6 @@ function reducer(state: AppState, action) {
         [payload.name as string]: payload.value
       };
     case ACTIONS.SET_SETTING:
-      console.log(payload);
       return {
         ...state,
         settings: {

@@ -4,7 +4,7 @@ import { getOlxLinkBySettings } from "../shared/link_generator/linkService";
 const getDataFromOlx = async (settings: Settings) => {
   const olxLink =
     settings.mode === "advanced"
-      ? settings.olxLink
+      ? settings.olxLink.split("\n")
       : getOlxLinkBySettings(settings);
   if (!olxLink) {
     return false;
@@ -24,7 +24,8 @@ const getDataFromOlx = async (settings: Settings) => {
 
   // @ts-ignore
   const olxData = responses.reduce(async (acc, response) => {
-    return [...acc, ...(await parseResponseData(response))];
+    // @ts-ignore
+    return [...(await acc), ...(await parseResponseData(response))];
   }, []);
 
   return olxData;
@@ -51,7 +52,7 @@ const parseResponseData = async (data): Promise<ListItem[]> => {
     // @ts-ignore innerText exists in chrome
     const price = offer.querySelector("p.price strong").innerText.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"");
 
-    return {
+    return <ListItem>{
       hashId,
       name,
       link,
