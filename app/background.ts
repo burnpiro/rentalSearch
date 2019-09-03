@@ -186,7 +186,14 @@ async function loadNewData() {
   chrome.browserAction.setBadgeText({ text: "" + getUnseen(list) + "" });
 
   //limit number of elements on list array (storage limitation)
-  list.slice(0, 500);
+  if (list.length > 500) {
+    list = list.reduce((acc, el, index) => {
+      if (index < 500) {
+        acc.push(el);
+      }
+      return acc;
+    }, []);
+  }
 
   setList(list);
 
@@ -211,7 +218,14 @@ async function loadExtraData() {
   list = [...olxData.filter(checkIfNotOnCurrentList).map(mapToFav), ...list];
 
   //limit number of elements on list array (storage limitation)
-  list.slice(0, 500);
+  if (list.length > 500) {
+    list = list.reduce((acc, el, index) => {
+      if (index < 500) {
+        acc.push(el);
+      }
+      return acc;
+    }, []);
+  }
 
   chrome.browserAction.setBadgeText({ text: "" + getUnseen(list) + "" });
 
@@ -235,7 +249,10 @@ function init() {
   getSettings();
   getList();
   getFavourites();
-  loadExtraData();
+
+  setTimeout(() => {
+    loadExtraData();
+  }, 2000);
 
   interval = startInterval(settings.interval);
 }

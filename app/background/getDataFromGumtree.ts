@@ -4,7 +4,7 @@ import { getGumtreeLinkBySettings } from "../shared/link_generator/linkService";
 const getDataFromGumtree = async (settings: Settings) => {
   const gumtreeLink =
     settings.mode === "advanced"
-      ? settings.gumtreeLink
+      ? settings.gumtreeLink.split("\n")
       : getGumtreeLinkBySettings(settings);
   if (!gumtreeLink) {
     return false;
@@ -24,7 +24,8 @@ const getDataFromGumtree = async (settings: Settings) => {
 
   // @ts-ignore
   const gumtreeData = responses.reduce(async (acc, response) => {
-    return [...acc, ...(await parseResponseData(response))];
+    // @ts-ignore
+    return [...(await acc), ...(await parseResponseData(response))];
   }, []);
 
   return gumtreeData;

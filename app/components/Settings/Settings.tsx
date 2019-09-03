@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Settings(props: Props) {
   const classes = useStyles(undefined);
+  const [hasChanges, setHasChanges] = React.useState(false);
   const [{ settings }, dispatch] = React.useContext(AppStateContext);
   useFetchLocalData(dispatch, localDataTypes.SETTINGS);
 
@@ -66,47 +67,34 @@ export default function Settings(props: Props) {
     const {
       target: { name, value }
     } = event;
-    dispatch({
-      type: ACTIONS.SET_SETTING,
-      payload: {
-        name: name as string,
-        value: value
-      }
-    });
+    handleSettingChange(ACTIONS.SET_SETTING, name as string, value);
   }
   function handleModeChange() {
-    dispatch({
-      type: ACTIONS.SET_SETTING,
-      payload: {
-        name: "mode",
-        value: settings.mode === "basic" ? "advanced" : "basic"
-      }
-    });
+    handleSettingChange(ACTIONS.SET_SETTING, "mode", settings.mode === "basic" ? "advanced" : "basic");
   }
   function handleIntervalChange(event, value) {
-    dispatch({
-      type: ACTIONS.SET_SETTING,
-      payload: {
-        name: "interval",
-        value: value
-      }
-    });
+    handleSettingChange(ACTIONS.SET_SETTING, "interval", value);
   }
   function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
     const {
       target: { checked, name }
     } = event;
+    handleSettingChange(ACTIONS.SET_SETTING, name, checked);
+  }
+
+  function handleSettingChange(type, name, value) {
+    setHasChanges(true);
     dispatch({
-      type: ACTIONS.SET_SETTING,
+      type: type,
       payload: {
         name: name,
-        value: checked
+        value: value
       }
     });
   }
   function saveSettings() {
     sendSetMessage(localDataTypes.SETTINGS, settings, () => {
-      console.log('saved');
+      setHasChanges(false);
     })
   }
 
@@ -128,6 +116,7 @@ export default function Settings(props: Props) {
         aria-label="Save settings"
         className={classes.fab}
         onClick={saveSettings}
+        disabled={hasChanges === false}
       >
         <i className="material-icons">save</i>
       </Fab>
@@ -342,9 +331,9 @@ export default function Settings(props: Props) {
           aria-label="Interwał powiadomień"
           valueLabelDisplay="auto"
           aria-labelledby="interval-slider"
-          min={1}
-          max={30}
-          step={1}
+          min={5}
+          max={60}
+          step={5}
           onChange={handleIntervalChange}
           value={settings.interval}
           name="interval"

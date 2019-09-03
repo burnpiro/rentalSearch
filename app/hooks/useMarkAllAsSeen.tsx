@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ACTIONS } from "./AppState";
 import { sendSetMessage } from "../background/api";
 
-const useFetchLocalData = (dispatch, dataType: string) => {
+const useMarkAllAsSeen = (dispatch) => {
   useEffect(() => {
     sendSetMessage(ACTIONS.ALL_SEEN, null,function(response) {
       if(response.payload && response.code === 200) {
@@ -15,4 +15,4 @@ const useFetchLocalData = (dispatch, dataType: string) => {
   }, []);
 };
 
-export default useFetchLocalData;
+export default useMarkAllAsSeen;

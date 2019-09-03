@@ -9,6 +9,7 @@ import Divider from "@material-ui/core/Divider";
 import Link from "@material-ui/core/Link";
 import useFetchLocalData from "../../hooks/useFetchLocalData";
 import { localDataTypes } from "../../shared/data";
+import useMarkAllAsSeen from "../../hooks/useMarkAllAsSeen";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +24,7 @@ export default function Dashboard() {
   const classes = useStyles(undefined);
   const [{ list }, dispatch] = React.useContext(AppStateContext);
   useFetchLocalData(dispatch, localDataTypes.LIST);
+  useMarkAllAsSeen(dispatch);
 
   const markAsSeen = (hashId: string) => {
     dispatch({

@@ -697,8 +697,8 @@ const categories = [
   }
 ];
 const defaultSettings: Settings = {
-  interval: 1,
-  olxLink: ["https://olx.pl/nieruchomosci/mieszkania/wynajem/"],
+  interval: 10,
+  olxLink: ["https://www.olx.pl/nieruchomosci/mieszkania/wynajem/"],
   gumtreeLink: [
     "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008"
   ],
