@@ -1,6 +1,7 @@
 // tsconfig.json
 {
   "compilerOptions": {
-    "jsx": "react"
+    "jsx": "react",
+    "target": "es2018"
   }
 }

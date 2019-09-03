@@ -5,7 +5,9 @@
   "main": "app/index.html",
   "scripts": {
     "start": "parcel app/index.html app/background.ts",
-    "build": "parcel build app/index.html app/background.ts --out-dir dist",
+    "build": "npm run clear-dist && parcel build app/index.html app/background.ts --out-dir dist --no-source-maps",
+    "build-dev": "npm run clear-dist && parcel build app/index.html app/background.ts --out-dir dist --no-minify",
+    "clear-dist": "rm -fr ./dist/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kemal Erdem",
@@ -25,5 +27,8 @@
     "parcel-plugin-static-files-copy": "^2.2.1",
     "prettier": "^1.18.2",
     "typescript": "^3.6.2"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }
