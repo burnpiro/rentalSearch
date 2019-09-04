@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ACTIONS } from "./AppState";
 import { sendGetMessage, sendMessage } from "../background/api";
 
-const useFetchLocalData = (dispatch, dataType: string) => {
+const useFetchLocalData = (dispatch, dataType: string, watch?: any) => {
   useEffect(() => {
     sendGetMessage(dataType, function(response) {
       dispatch({
@@ -11,7 +11,7 @@ const useFetchLocalData = (dispatch, dataType: string) => {
         payload: { name: dataType, value: response.payload }
       });
     });
-  }, []);
+  }, [watch]);
 };
 
 export default useFetchLocalData;

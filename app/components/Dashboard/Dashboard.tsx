@@ -22,8 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Dashboard() {
   const classes = useStyles(undefined);
-  const [{ list }, dispatch] = React.useContext(AppStateContext);
-  useFetchLocalData(dispatch, localDataTypes.LIST);
+
+  const [{ list, settings }, dispatch] = React.useContext(AppStateContext);
+
+  useFetchLocalData(dispatch, localDataTypes.LIST, settings);
   useMarkAllAsSeen(dispatch);
 
   const markAsSeen = (hashId: string) => {
@@ -56,7 +58,11 @@ export default function Dashboard() {
                 key={property.hashId}
                 {...property}
                 onSeen={markAsSeen}
-                onAddToFavourites={property.isInFavourites ? removeFromFavourites : addToFavourites}
+                onAddToFavourites={
+                  property.isInFavourites
+                    ? removeFromFavourites
+                    : addToFavourites
+                }
               />
             </React.Fragment>
           );
