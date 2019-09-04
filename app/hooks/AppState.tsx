@@ -1,7 +1,7 @@
 import * as React from "react";
 import { defaultSettings, ACTIONS } from "../shared/data";
 import { useReducer, useState } from "react";
-import { AppState } from "../shared/types";
+import { ActionType, AppState, AppStateContextType } from "../shared/types";
 import { sendSetMessage } from "../background/api";
 
 const defaultAppState: AppState = {
@@ -12,7 +12,7 @@ const defaultAppState: AppState = {
   favourites: []
 };
 
-function reducer(state: AppState, action) {
+function reducer(state: AppState, action: ActionType) {
   const { type, payload } = action;
   switch (type) {
     case ACTIONS.SET:
@@ -101,7 +101,7 @@ function reducer(state: AppState, action) {
   }
 }
 
-const AppStateContext = React.createContext([defaultAppState, () => {}]);
+const AppStateContext = React.createContext<AppStateContextType>([defaultAppState, () => {}]);
 
 const AppStateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, defaultAppState);

@@ -1,12 +1,10 @@
 import * as React from "react";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import { ACTIONS, AppStateContext } from "../../hooks/AppState";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import PropertyListItem from "../PropertyListItem/PropertyListItem";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import Link from "@material-ui/core/Link";
 import useFetchLocalData from "../../hooks/useFetchLocalData";
 import { localDataTypes } from "../../shared/data";
 import useMarkAllAsSeen from "../../hooks/useMarkAllAsSeen";

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { ACTIONS } from "./AppState";
-import { sendGetMessage, sendMessage } from "../background/api";
+import { sendGetMessage } from "../background/api";
 
 const useFetchLocalData = (dispatch, dataType: string, watch?: any) => {
   useEffect(() => {

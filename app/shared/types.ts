@@ -40,6 +40,16 @@ interface AppState {
   favourites: List
 }
 
+type ActionType = {
+  type: string,
+  payload: any
+}
+
+
+type AppStateContextType = [
+  AppState,
+  (ActionType) => void
+]
 type List = Array<ListItem>;
 
 export {
@@ -47,5 +57,7 @@ export {
   Location,
   ListItem,
   List,
-  AppState
+  AppState,
+  AppStateContextType,
+  ActionType
 }
