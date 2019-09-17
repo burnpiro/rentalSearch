@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       margin: 10,
       width: 80,
-      height: 80,
+      height: 80
     },
     content: {
       paddingRight: theme.spacing(3)
@@ -59,7 +59,14 @@ export default function PropertyListItem(
   };
 
   return (
-    <ListItem alignItems="center" button component="a" href={link} target="_blank">
+    <ListItem
+      alignItems="center"
+      dense
+      button
+      component="a"
+      href={link}
+      target="_blank"
+    >
       <ListItemAvatar>
         <Avatar alt={name} src={img} className={classes.avatar} />
       </ListItemAvatar>

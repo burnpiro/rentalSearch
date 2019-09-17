@@ -24,6 +24,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
+      flexWrap: "wrap",
+      overflowY: "scroll",
+      maxHeight: 550
+    },
+    form: {
+      display: "flex",
       flexWrap: "wrap"
     },
     formControl: {
@@ -70,7 +76,11 @@ export default function Settings(props: Props) {
     handleSettingChange(ACTIONS.SET_SETTING, name as string, value);
   }
   function handleModeChange() {
-    handleSettingChange(ACTIONS.SET_SETTING, "mode", settings.mode === "basic" ? "advanced" : "basic");
+    handleSettingChange(
+      ACTIONS.SET_SETTING,
+      "mode",
+      settings.mode === "basic" ? "advanced" : "basic"
+    );
   }
   function handleIntervalChange(event, value) {
     handleSettingChange(ACTIONS.SET_SETTING, "interval", value);
@@ -95,11 +105,11 @@ export default function Settings(props: Props) {
   function saveSettings() {
     sendSetMessage(localDataTypes.SETTINGS, settings, () => {
       setHasChanges(false);
-    })
+    });
   }
 
   return (
-    <React.Fragment>
+    <Typography className={classes.root} component="div">
       <FormControlLabel
         className={[classes.formControl, classes.fullWidth].join(" ")}
         control={
@@ -120,7 +130,7 @@ export default function Settings(props: Props) {
       >
         <i className="material-icons">save</i>
       </Fab>
-      <form className={classes.root} autoComplete="off">
+      <form className={classes.form} autoComplete="off">
         {settings.mode === "advanced" && (
           <React.Fragment>
             <TextField
@@ -339,6 +349,6 @@ export default function Settings(props: Props) {
           name="interval"
         />
       </form>
-    </React.Fragment>
+    </Typography>
   );
 }

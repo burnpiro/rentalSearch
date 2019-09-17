@@ -1,7 +1,8 @@
 import * as React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { ACTIONS, AppStateContext } from "../../hooks/AppState";
-import List from "@material-ui/core/List";
+import MUIList from "@material-ui/core/List";
+import { List } from "react-virtualized";
 import Divider from "@material-ui/core/Divider";
 import PropertyListItem from "../PropertyListItem/PropertyListItem";
 import Typography from "@material-ui/core/Typography";
@@ -15,6 +16,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface renderRowProps {
+  key: string;
+  index: number;
+  isScrolling: boolean;
+  isVisible: boolean;
+  style: any;
+}
+
 export default function Favourites() {
   const classes = useStyles(undefined);
   const [{ favourites }, dispatch] = React.useContext(AppStateContext);
@@ -27,27 +36,40 @@ export default function Favourites() {
     });
   };
 
+  const renderRow = function({
+    key,
+    index,
+    isScrolling,
+    isVisible,
+    style
+  }: renderRowProps) {
+    const property = favourites[index];
+    return (
+      <div style={style} key={key}>
+        {index > 0 && <Divider variant="inset" component="li" />}
+        <PropertyListItem
+          {...property}
+          isInFavourites={true}
+          onAddToFavourites={removeFromFavourites}
+        />
+      </div>
+    );
+  };
+
   return (
-    <List dense className={classes.root}>
-      {favourites.length > 0 &&
-        favourites.map((property, index) => {
-          return (
-            <React.Fragment key={property.hashId}>
-              {index > 0 && <Divider variant="inset" component="li" />}
-              <PropertyListItem
-                key={property.hashId}
-                {...property}
-                isInFavourites={true}
-                onAddToFavourites={removeFromFavourites}
-              />
-            </React.Fragment>
-          );
-        })}
+    <MUIList dense className={classes.root}>
       {favourites.length === 0 && (
         <Typography variant="body2" color="textSecondary" align="center">
           {"Brak nieruchomości do wyświetlenia"}
         </Typography>
       )}
-    </List>
+      <List
+        height={530}
+        width={600}
+        rowCount={favourites.length}
+        rowHeight={140}
+        rowRenderer={renderRow}
+      />
+    </MUIList>
   );
 }

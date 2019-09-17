@@ -23,8 +23,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     maxHeight: "530px",
-    paddingBottom: "20px",
-    overflowY: "scroll"
+    paddingBottom: "20px"
   },
   copyright: {
     position: "absolute",

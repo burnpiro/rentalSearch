@@ -101,13 +101,15 @@ function reducer(state: AppState, action: ActionType) {
   }
 }
 
-const AppStateContext = React.createContext<AppStateContextType>([defaultAppState, () => {}]);
+const AppStateContext = React.createContext<AppStateContextType>([
+  defaultAppState,
+  () => {}
+]);
 
 const AppStateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, defaultAppState);
 
   return (
-    // @ts-ignore
     <AppStateContext.Provider value={[state, dispatch]}>
       {children}
     </AppStateContext.Provider>
