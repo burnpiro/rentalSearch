@@ -114,6 +114,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 const setSettings = function(newSettings: Settings) {
   chrome.storage.sync.set({ settings: newSettings }, function() {
     settings = newSettings;
+    loadNewData();
   });
 };
 
@@ -199,7 +200,7 @@ async function loadNewData() {
 
   if (getUnseen(list) > 0 && settings.allowNotifications) {
     showNotification({
-      title: getUnseen(list) + " Nowe ogłoszenia",
+      title: getUnseen(list) + " Nowe ogłoszenie/a",
       message: "Masz nieprzeczytane ogłoszenia zgodne z twoimi kryteriami"
     });
   }
@@ -209,13 +210,16 @@ async function loadExtraData() {
   const [gumtreeData, olxData] = await Promise.all([
     getDataFromGumtree(settings),
     getDataFromOlx(settings)
-  ]);
+  ]) as [ListItem[], ListItem[]];
+
+  const newGumtreeItems = gumtreeData.filter(checkIfNotOnCurrentList).map(mapToFav);
+  const newOlxItems = olxData.filter(checkIfNotOnCurrentList).map(mapToFav);
 
   list = [
-    ...gumtreeData.filter(checkIfNotOnCurrentList).map(mapToFav),
+    ...newGumtreeItems,
+    ...newOlxItems,
     ...list
   ];
-  list = [...olxData.filter(checkIfNotOnCurrentList).map(mapToFav), ...list];
 
   //limit number of elements on list array (storage limitation)
   if (list.length > 500) {
@@ -231,9 +235,9 @@ async function loadExtraData() {
 
   setList(list);
 
-  if (getUnseen(list) > 0 && settings.allowNotifications) {
+  if ((newGumtreeItems.length + newOlxItems.length) > 0 && settings.allowNotifications) {
     showNotification({
-      title: getUnseen(list) + " Nowe ogłoszenia",
+      title: (newGumtreeItems.length + newOlxItems.length) + " Nowe ogłoszenie/a",
       message: "Masz nieprzeczytane ogłoszenia zgodne z twoimi kryteriami"
     });
   }
