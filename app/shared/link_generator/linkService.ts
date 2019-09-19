@@ -78,6 +78,7 @@ const getGumtreeLinkBySettings = function(settings: Settings): string[] {
   if (
     settings.sizeType != null &&
     settings.sizeType !== '' &&
+    Object.keys(gumtreeSizeTypes).includes(settings.sizeType as string) &&
     (settings.category === "mieszkania/wynajem" ||
       settings.category === "mieszkania/sprzedaz" ||
       settings.category === "stancje-pokoje")
