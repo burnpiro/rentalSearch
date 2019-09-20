@@ -7,20 +7,9 @@ interface Location {
 }
 
 interface Settings {
-  location: string;
-  sizeType: typeof gumtreeSizeTypes[keyof typeof gumtreeSizeTypes];
-  category: keyof typeof gumtreeCategories;
   automaticallyMarkAsSeen: boolean;
   allowNotifications: boolean;
-  mode: 'basic' | 'advanced';
-  owner: 'private' | 'business' | 'both';
-  priceFrom: string | null;
-  priceTo: string | null;
-  sizeFrom: string | null;
-  sizeTo: string | null;
   interval: number;
-  olxLink: string[];
-  gumtreeLink: string[];
 }
 
 interface ListItem {
@@ -34,10 +23,28 @@ interface ListItem {
   type: "gumtree" | "olx";
 }
 
+interface SearchItem {
+  searchId?: string,
+  location: string;
+  sizeType: typeof gumtreeSizeTypes[keyof typeof gumtreeSizeTypes];
+  category: keyof typeof gumtreeCategories;
+  type: 'gumtree' | 'olx' | 'both';
+  mode: 'basic' | 'advanced';
+  owner: 'private' | 'business' | 'both';
+  priceFrom: string | null;
+  priceTo: string | null;
+  sizeFrom: string | null;
+  sizeTo: string | null;
+  olxLink: string;
+  gumtreeLink: string;
+}
+
 interface AppState {
   settings: Settings,
   list: List,
-  favourites: List
+  favourites: List,
+  searches: SearchItem[],
+  selectedSearch: SearchItem | null
 }
 
 type ActionType = {
@@ -59,5 +66,6 @@ export {
   List,
   AppState,
   AppStateContextType,
-  ActionType
+  ActionType,
+  SearchItem
 }

@@ -1,4 +1,5 @@
-import { Location, Settings } from "./types";
+import { Location, SearchItem, Settings } from "./types";
+import SearchForm from "../components/Searches/SearchForm";
 
 const parsedLocations: Location[] = [
   {
@@ -670,6 +671,20 @@ const owners = [
     label: "Biuro"
   }
 ];
+const searchTypes = [
+  {
+    value: "both",
+    label: ""
+  },
+  {
+    value: "gumtree",
+    label: "Gumtree"
+  },
+  {
+    value: "olx",
+    label: "Olx"
+  }
+];
 const categories = [
   {
     value: "mieszkania/wynajem",
@@ -698,29 +713,31 @@ const categories = [
 ];
 const defaultSettings: Settings = {
   interval: 10,
-  olxLink: ["https://www.olx.pl/nieruchomosci/mieszkania/wynajem/"],
-  gumtreeLink: [
-    "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008"
-  ],
-  mode: "basic",
   allowNotifications: true,
-  automaticallyMarkAsSeen: false,
+  automaticallyMarkAsSeen: false
+};
+const defaultSearchData: SearchItem = {
+  olxLink: "https://www.olx.pl/nieruchomosci/mieszkania/wynajem/",
+  gumtreeLink:
+    "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c9008",
+  mode: "basic",
+  type: <SearchItem["type"]>searchTypes[0].value,
   location: "",
   priceFrom: "",
   priceTo: "",
   sizeFrom: "",
   sizeTo: "",
   sizeType: sizeTypes[0].value,
-  owner: <Settings["owner"]>owners[0].value,
-  category: <Settings["category"]>categories[0].value
+  owner: <SearchItem["owner"]>owners[0].value,
+  category: <SearchItem["category"]>categories[0].value
 };
 
 const localDataTypes = {
   SETTINGS: "settings",
   LIST: "list",
-  FAVOURITES: "favourites"
+  FAVOURITES: "favourites",
+  SEARCHES: "searches"
 };
-
 
 const ACTIONS = {
   SET: "SET",
@@ -728,6 +745,12 @@ const ACTIONS = {
   TOGGLE_SEEN: "TOGGLE_SEEN",
   ADD_TO_FAVOURITES: "ADD_TO_FAVOURITES",
   REMOVE_FROM_FAVOURITES: "REMOVE_FROM_FAVOURITES",
+  ADD_SEARCH: "ADD_SEARCH",
+  EDIT_SEARCH: "EDIT_SEARCH",
+  SET_SEARCH: "SET_SEARCH",
+  SAVE_SEARCH: "SAVE_SEARCH",
+  CLEAR_SEARCH: "CLEAR_SEARCH",
+  REMOVE_SEARCH: "REMOVE_SEARCH",
   ALL_SEEN: "ALL_SEEN"
 };
 
@@ -740,5 +763,7 @@ export {
   categories,
   defaultSettings,
   localDataTypes,
-  ACTIONS
+  ACTIONS,
+  searchTypes,
+  defaultSearchData
 };
