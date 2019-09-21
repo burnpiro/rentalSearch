@@ -11,8 +11,10 @@ import { localDataTypes } from "../../shared/data";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    width: "100%",
-    backgroundColor: theme.palette.background.paper
+    root: {
+      width: "100%",
+      backgroundColor: theme.palette.background.paper
+    }
   })
 );
 
