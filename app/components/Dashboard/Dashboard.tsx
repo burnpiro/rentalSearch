@@ -29,7 +29,6 @@ interface renderRowProps {
 
 export default function Dashboard() {
   const classes = useStyles(undefined);
-
   const [{ list, settings }, dispatch] = React.useContext(AppStateContext);
 
   useFetchLocalData(dispatch, localDataTypes.LIST, settings);
