@@ -1,16 +1,17 @@
-import { ListItem, Settings } from "../shared/types";
+import { ListItem, SearchItem } from "../shared/types";
 import { getGumtreeLinkBySettings } from "../shared/link_generator/linkService";
 
-const getDataFromGumtree = async (settings: Settings) => {
-  const gumtreeLink =
-    settings.mode === "advanced"
-      ? settings.gumtreeLink.split("\n")
-      : getGumtreeLinkBySettings(settings);
-  if (!gumtreeLink) {
-    return false;
-  }
-
-  const promises = gumtreeLink.map(link => {
+const getDataFromGumtree = async (
+  searches: SearchItem[]
+) => {
+  const promises = searches.filter(search => search.type !== 'olx').map(search => {
+    const link =
+      search.mode === "advanced"
+        ? search.gumtreeLink
+        : getGumtreeLinkBySettings(search);
+    if (!link) {
+      return {};
+    }
     return fetch(link, {
       headers: {
         Origin: "*",
@@ -22,13 +23,10 @@ const getDataFromGumtree = async (settings: Settings) => {
 
   const responses = await Promise.all(promises);
 
-  // @ts-ignore
-  const gumtreeData = responses.reduce(async (acc, response) => {
+  return responses.reduce(async (acc, response) => {
     // @ts-ignore
     return [...(await acc), ...(await parseResponseData(response))];
   }, []);
-
-  return gumtreeData;
 };
 
 const parseResponseData = async (data): Promise<ListItem[]> => {
@@ -45,12 +43,15 @@ const parseResponseData = async (data): Promise<ListItem[]> => {
     const link = `https://www.gumtree.pl${offer
       .querySelector(".title > a")
       .getAttribute("href")}`;
-    const img = offer
-      .querySelector(".tile-img-section img") != null ? offer
-      .querySelector(".tile-img-section img")
-      .getAttribute("data-src") : null;
+    const img =
+      offer.querySelector(".tile-img-section img") != null
+        ? offer.querySelector(".tile-img-section img").getAttribute("data-src")
+        : null;
     // @ts-ignore innerText exists in chrome
-    const price = offer.querySelector(".price-text").innerText.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"");
+    const price = offer
+      .querySelector(".price-text") != null ? offer
+      .querySelector(".price-text")
+      .innerText.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "") : 'brak ceny';
 
     return {
       hashId,

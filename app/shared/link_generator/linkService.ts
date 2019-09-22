@@ -1,5 +1,5 @@
 import { parsedLocations, gumtreeSizeTypes, gumtreeCategories } from "../data";
-import { Settings, Location } from "../types";
+import { Settings, Location, SearchItem } from "../types";
 
 const categorySpliter = "CatId=";
 const locationSpliter = "Location=";
@@ -9,86 +9,86 @@ const getLocationByValue = function(value: string) {
   return parsedLocations.find(location => location.value === value);
 };
 
-const getOlxLinkBySettings = function(settings: Settings): string[] {
-  if (!settings.category) {
-    settings.category = "mieszkania/wynajem";
+const getOlxLinkBySettings = function(search: SearchItem): string {
+  if (!search.category) {
+    search.category = "mieszkania/wynajem";
   }
-  let link = "https://olx.pl/nieruchomosci/" + settings.category + "/";
-  if (settings.location !== "" && settings.location != null) {
-    const currentLocation = getLocationByValue(settings.location);
+  let link = "https://olx.pl/nieruchomosci/" + search.category + "/";
+  if (search.location !== "" && search.location != null) {
+    const currentLocation = getLocationByValue(search.location);
     link += "" + currentLocation.name + "/";
   }
   link += "?";
-  if (settings.priceTo != null && settings.priceTo !== "") {
-    link += "search[filter_float_price:to]=" + settings.priceTo + "&";
+  if (search.priceTo != null && search.priceTo !== "") {
+    link += "search[filter_float_price:to]=" + search.priceTo + "&";
   }
-  if (settings.priceFrom != null && settings.priceFrom !== "") {
-    link += "search[filter_float_price:from]=" + settings.priceFrom + "&";
+  if (search.priceFrom != null && search.priceFrom !== "") {
+    link += "search[filter_float_price:from]=" + search.priceFrom + "&";
   }
-  if (settings.sizeTo != null && settings.sizeTo !== "") {
-    link += "search[filter_float_m:to]=" + settings.sizeTo + "&";
+  if (search.sizeTo != null && search.sizeTo !== "") {
+    link += "search[filter_float_m:to]=" + search.sizeTo + "&";
   }
-  if (settings.sizeFrom != null && settings.sizeFrom !== "") {
-    link += "search[filter_float_m:from]=" + settings.sizeFrom + "&";
+  if (search.sizeFrom != null && search.sizeFrom !== "") {
+    link += "search[filter_float_m:from]=" + search.sizeFrom + "&";
   }
-  if (settings.category === "stancje-pokoje") {
-    if (settings.sizeType != null) {
-      if (settings.sizeType === "four") {
-        settings.sizeType = "three";
+  if (search.category === "stancje-pokoje") {
+    if (search.sizeType != null) {
+      if (search.sizeType === "four") {
+        search.sizeType = "three";
       }
-      link += "search[filter_enum_roomsize]=" + settings.sizeType + "&";
+      link += "search[filter_enum_roomsize]=" + search.sizeType + "&";
     }
   } else if (
-    settings.category === "mieszkania/wynajem" ||
-    settings.category === "mieszkania/sprzedaz"
+    search.category === "mieszkania/wynajem" ||
+    search.category === "mieszkania/sprzedaz"
   ) {
-    if (settings.sizeType != null && settings.sizeType !== "all") {
-      link += "search[filter_enum_rooms]=" + settings.sizeType + "&";
+    if (search.sizeType != null && search.sizeType !== "all") {
+      link += "search[filter_enum_rooms]=" + search.sizeType + "&";
     }
   }
-  if (settings.owner != null && settings.owner !== "both") {
+  if (search.owner != null && search.owner !== "both") {
     link +=
       "search[private_business]=" +
-      (settings.owner === "private" ? "private" : "business") +
+      (search.owner === "private" ? "private" : "business") +
       "&";
   }
-  return [link];
+  return link;
 };
 
-const getGumtreeLinkBySettings = function(settings: Settings): string[] {
-  if (!settings.category) {
-    settings.category = "mieszkania/wynajem";
+const getGumtreeLinkBySettings = function(search: SearchItem): string {
+  if (!search.category) {
+    search.category = "mieszkania/wynajem";
   }
   let link =
     "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/v1c" +
-    gumtreeCategories[settings.category] +
+    gumtreeCategories[search.category] +
     "";
-  if (settings.location !== "" && settings.location != null) {
-    const currentLocation = getLocationByValue(settings.location);
+  if (search.location !== "" && search.location != null) {
+    const currentLocation = getLocationByValue(search.location);
     link += "l" + currentLocation.value;
   }
   link += "p1?";
   if (
-    (settings.priceTo != null && settings.priceTo !== "") ||
-    (settings.priceFrom != null && settings.priceFrom !== "")
+    (search.priceTo != null && search.priceTo !== "") ||
+    (search.priceFrom != null && search.priceFrom !== "")
   ) {
     link +=
-      "pr=" + (settings.priceFrom || "") + "," + (settings.priceTo || "") + "&";
+      "pr=" + (search.priceFrom || "") + "," + (search.priceTo || "") + "&";
   }
   if (
-    settings.sizeType != null &&
-    settings.sizeType !== '' &&
-    Object.keys(gumtreeSizeTypes).includes(settings.sizeType as string) &&
-    (settings.category === "mieszkania/wynajem" ||
-      settings.category === "mieszkania/sprzedaz" ||
-      settings.category === "stancje-pokoje")
+    search.sizeType != null &&
+    search.sizeType !== '' &&
+    Object.keys(gumtreeSizeTypes).includes(search.sizeType as string) &&
+    (search.category === "mieszkania/wynajem" ||
+      search.category === "mieszkania/sprzedaz" ||
+      search.category === "stancje-pokoje")
   ) {
-    link += "nr=" + gumtreeSizeTypes[settings.sizeType] + "&";
+    link += "nr=" + gumtreeSizeTypes[search.sizeType] + "&";
   }
-  if (settings.owner != null && settings.owner !== "both") {
-    link += "fr=" + (settings.owner === "private" ? "ownr" : "agncy") + "&";
+  if (search.owner != null && search.owner !== "both") {
+    link += "fr=" + (search.owner === "private" ? "ownr" : "agncy") + "&";
   }
-  return [link];
+  return link;
 };
 
 export {

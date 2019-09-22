@@ -134,33 +134,41 @@ export default function Searches() {
           <ListItemAvatar className={classes.logoContainer}>
             {search.type !== "olx" && (
               <img src="img/gumtree_logo.png" className={classes.typeLogo} />
-            )}{" "}
+            )}
             {search.type !== "gumtree" && (
               <img src="img/olx_logo.png" className={classes.typeLogo} />
             )}
           </ListItemAvatar>
-          <ListItemText
-            primary={
-              location != null
-                ? `${location.label} - ${search.category}`
-                : "Brak zdefiniowanej lokalizacji"
-            }
-            className={classes.content}
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  {`Cena: ${search.priceFrom || 0} - ${search.priceTo ||
-                    "Max"}, Rozmiar: ${search.sizeFrom ||
-                    0} - ${search.sizeTo || "Max"}`}
-                </Typography>
-              </React.Fragment>
-            }
-          />
+          {search.mode === "basic" && (
+            <ListItemText
+              primary={
+                location != null
+                  ? `${location.label} - ${search.category}`
+                  : "Brak zdefiniowanej lokalizacji"
+              }
+              className={classes.content}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {`Cena: ${search.priceFrom || 0} - ${search.priceTo ||
+                      "Max"}, Rozmiar: ${search.sizeFrom ||
+                      0} - ${search.sizeTo || "Max"}`}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          )}
+          {search.mode === "advanced" && (
+            <ListItemText
+              primary="Wyszukiwanie z linku"
+              className={classes.content}
+            />
+          )}
           <ListItemSecondaryAction>
             <IconButton
               edge="end"

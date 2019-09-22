@@ -21,6 +21,7 @@ interface ListItem {
   isInFavourites: boolean;
   link: string,
   type: "gumtree" | "olx";
+  searchId?: string
 }
 
 interface SearchItem {

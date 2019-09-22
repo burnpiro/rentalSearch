@@ -1,16 +1,15 @@
-import { ListItem, Settings } from "../shared/types";
+import { ListItem, SearchItem } from "../shared/types";
 import { getOlxLinkBySettings } from "../shared/link_generator/linkService";
 
-const getDataFromOlx = async (settings: Settings) => {
-  const olxLink =
-    settings.mode === "advanced"
-      ? settings.olxLink.split("\n")
-      : getOlxLinkBySettings(settings);
-  if (!olxLink) {
-    return false;
-  }
-
-  const promises = olxLink.map(link => {
+const getDataFromOlx = async (searches: SearchItem[]) => {
+  const promises = searches.filter(search => search.type !== 'gumtree').map(search => {
+    const link =
+      search.mode === "advanced"
+        ? search.olxLink
+        : getOlxLinkBySettings(search);
+    if (!link) {
+      return {};
+    }
     return fetch(link, {
       headers: {
         Origin: "*",
@@ -23,12 +22,10 @@ const getDataFromOlx = async (settings: Settings) => {
   const responses = await Promise.all(promises);
 
   // @ts-ignore
-  const olxData = responses.reduce(async (acc, response) => {
+  return responses.reduce(async (acc, response) => {
     // @ts-ignore
     return [...(await acc), ...(await parseResponseData(response))];
   }, []);
-
-  return olxData;
 };
 
 const parseResponseData = async (data): Promise<ListItem[]> => {
@@ -45,12 +42,15 @@ const parseResponseData = async (data): Promise<ListItem[]> => {
     const link = `${offer
       .querySelector("a.linkWithHash")
       .getAttribute("href")}`;
-    const img = offer
-      .querySelector("a.linkWithHash img") != null ? offer
-      .querySelector("a.linkWithHash img")
-      .getAttribute("src") : null;
+    const img =
+      offer.querySelector("a.linkWithHash img") != null
+        ? offer.querySelector("a.linkWithHash img").getAttribute("src")
+        : null;
     // @ts-ignore innerText exists in chrome
-    const price = offer.querySelector("p.price strong").innerText.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"");
+    const price = offer
+      .querySelector("p.price strong") != null ? offer
+      .querySelector("p.price strong")
+      .innerText.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "") : 'brak ceny';
 
     return <ListItem>{
       hashId,

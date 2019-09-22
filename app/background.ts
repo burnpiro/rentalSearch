@@ -230,9 +230,9 @@ function mapToFav(el) {
 
 async function loadNewData() {
   const [gumtreeData, olxData] = await Promise.all([
-    getDataFromGumtree(settings),
-    getDataFromOlx(settings)
-  ]);
+    getDataFromGumtree(searches),
+    getDataFromOlx(searches)
+  ]) as [ListItem[], ListItem[]];
   list = [...gumtreeData.map(mapToFav), ...olxData.map(mapToFav)];
 
   chrome.browserAction.setBadgeText({ text: "" + getUnseen(list) + "" });
@@ -259,8 +259,8 @@ async function loadNewData() {
 
 async function loadExtraData() {
   const [gumtreeData, olxData] = await Promise.all([
-    getDataFromGumtree(settings),
-    getDataFromOlx(settings)
+    getDataFromGumtree(searches),
+    getDataFromOlx(searches)
   ]) as [ListItem[], ListItem[]];
 
   const newGumtreeItems = gumtreeData.filter(checkIfNotOnCurrentList).map(mapToFav);
