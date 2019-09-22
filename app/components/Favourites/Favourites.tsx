@@ -69,7 +69,7 @@ export default function Favourites() {
         height={530}
         width={600}
         rowCount={favourites.length}
-        rowHeight={140}
+        rowHeight={110}
         rowRenderer={renderRow}
       />
     </MUIList>

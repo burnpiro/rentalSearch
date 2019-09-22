@@ -86,7 +86,7 @@ export default function Dashboard() {
         height={530}
         width={600}
         rowCount={list.length}
-        rowHeight={140}
+        rowHeight={110}
         rowRenderer={renderRow}
       />
     </MUIList>
