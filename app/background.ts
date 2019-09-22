@@ -1,14 +1,15 @@
-import { List, ListItem, Settings } from "./shared/types";
+import { List, ListItem, SearchItem, Settings } from "./shared/types";
 import {
   ACTIONS,
   defaultSettings,
-  gumtreeCategories,
+  gumtreeCategories, gumtreeSizeTypes,
   localDataTypes
 } from "./shared/data";
 import getUnseen from "./background/getUnseen";
 import getDataFromGumtree from "./background/getDataFromGumtree";
 import getDataFromOlx from "./background/getDataFromOlx";
 import showNotification from "./background/showNotification";
+import uuid from 'uuid/v4';
 
 declare const chrome: any;
 let interval = null;
@@ -17,10 +18,14 @@ let favourites: List = [];
 let settings: Settings = {
   ...defaultSettings
 };
+let searches: SearchItem[] = [];
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.get) {
     case localDataTypes.LIST:
       sendResponse({ code: 200, payload: list });
+      break;
+    case localDataTypes.SEARCHES:
+      sendResponse({ code: 200, payload: searches });
       break;
     case localDataTypes.FAVOURITES:
       sendResponse({ code: 200, payload: favourites });
@@ -40,6 +45,36 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         });
         chrome.browserAction.setBadgeText({ text: "" + getUnseen(list) + "" });
         setList(list);
+      }
+      sendResponse({ code: 200 });
+      break;
+    case ACTIONS.SAVE_SEARCH:
+      if (request.payload != null) {
+        const search = searches.find(search => search.searchId === request.payload.searchId);
+        if(search != null) {
+          searches.map(currentSearch => {
+            if(currentSearch.searchId === search.searchId) {
+              return request.payload;
+            }
+            return currentSearch;
+          })
+        } else {
+          request.payload.searchId = uuid();
+          searches = [
+            {
+              ...request.payload
+            },
+            ...searches
+          ]
+        }
+        setSearches(searches);
+      }
+      sendResponse({ code: 200, payload: request.payload });
+      break;
+    case ACTIONS.REMOVE_SEARCH:
+      if (request.payload != null) {
+        searches = searches.filter(search => search.searchId !== request.payload);
+        setSearches(searches);
       }
       sendResponse({ code: 200 });
       break;
@@ -142,6 +177,22 @@ const getList = function() {
   }) {
     if (storedData.list != null) {
       list = storedData.list;
+    }
+  });
+};
+
+const setSearches = function(newSearches: SearchItem[]) {
+  chrome.storage.sync.set({ searches: newSearches }, function() {
+    searches = newSearches;
+  });
+};
+
+const getSearches = function() {
+  chrome.storage.sync.get(localDataTypes.SEARCHES, function(storedData: {
+    searches: SearchItem[] | undefined;
+  }) {
+    if (storedData.searches != null) {
+      searches = storedData.searches;
     }
   });
 };
