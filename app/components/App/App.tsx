@@ -11,6 +11,7 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import { AppStateProvider } from "../../hooks/AppState";
 import Favourites from "../Favourites/Favourites";
+import Searches from "../Searches/Searches";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -73,7 +74,8 @@ export default function App() {
         <Tabs value={value} onChange={handleChange} aria-label="Mode switch">
           <Tab label="Lista" {...a11yProps(0)} />
           <Tab label="Ulubione" {...a11yProps(1)} />
-          <Tab label="Ustawienia" {...a11yProps(2)} />
+          <Tab label="Wyszukiwania" {...a11yProps(2)} />
+          <Tab label="Ustawienia" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <AppStateProvider>
@@ -85,6 +87,9 @@ export default function App() {
             <Favourites />
           </TabPanel>
           <TabPanel value={value} index={2}>
+            <Searches />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
             <Settings />
           </TabPanel>
         </main>
