@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       if (request.payload != null) {
         const search = searches.find(search => search.searchId === request.payload.searchId);
         if(search != null) {
-          searches.map(currentSearch => {
+          searches = searches.map(currentSearch => {
             if(currentSearch.searchId === search.searchId) {
               return request.payload;
             }
