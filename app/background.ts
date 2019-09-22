@@ -302,6 +302,8 @@ function startInterval(time: number): any {
 
 function init() {
   getSettings();
+  convertSettingsToSearch();
+  getSearches();
   getList();
   getFavourites();
 
@@ -310,6 +312,30 @@ function init() {
   }, 2000);
 
   interval = startInterval(settings.interval);
+}
+
+function convertSettingsToSearch() {
+  if(settings.gumtreeLink != null && searches.length === 0) {
+    searches = [
+      ...searches,
+      {
+        searchId: uuid(),
+        location: settings.location,
+        sizeType: settings.sizeType,
+        category: settings.category,
+        type: 'both',
+        mode: settings.mode,
+        owner: settings.owner,
+        priceFrom: settings.priceFrom,
+        priceTo: settings.priceTo,
+        sizeFrom: settings.sizeFrom,
+        sizeTo: settings.sizeTo,
+        olxLink: settings.olxLink,
+        gumtreeLink: settings.gumtreeLink,
+      }
+    ]
+    setSearches(searches);
+  }
 }
 
 init();
