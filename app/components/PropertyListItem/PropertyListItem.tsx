@@ -1,10 +1,11 @@
 import * as React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, withStyles, Theme } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Checkbox from "@material-ui/core/Checkbox";
 import { ListItem as ListItemType } from "../../shared/types";
@@ -24,6 +25,16 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
+
+const HtmlTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: "#f5f5f9",
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(12),
+    border: "1px solid #dadde9"
+  }
+}))(Tooltip);
 
 export default function PropertyListItem(
   props: ListItemType & {
@@ -58,17 +69,34 @@ export default function PropertyListItem(
     }
   };
 
+  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    chrome.tabs.create({
+      url: link,
+      active: false
+    });
+    if (!seen) {
+      onSeen(hashId);
+    }
+  };
+
   return (
     <ListItem
       alignItems="center"
       dense
       button
-      component="a"
-      href={link}
-      target="_blank"
+      component="button"
+      onMouseDown={handleClick}
     >
       <ListItemAvatar>
-        <Avatar alt={name} src={img} className={classes.avatar} />
+        <HtmlTooltip
+          title={
+            <img src={img} style={{ maxHeight: "60vh", height: "60vh" }} />
+          }
+          enterDelay={500}
+          leaveDelay={200}
+        >
+          <Avatar alt={name} src={img} className={classes.avatar} />
+        </HtmlTooltip>
       </ListItemAvatar>
       <ListItemText
         primary={name}
