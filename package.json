@@ -26,7 +26,7 @@
     "@types/material-ui": "^0.21.7",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
-    "bestzip": "^2.1.4",
+    "bestzip": "^2.1.7",
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-static-files-copy": "^2.2.1",
     "prettier": "^1.18.2",
